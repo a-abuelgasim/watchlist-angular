@@ -1,0 +1,41 @@
+@use '../../../scss/abstracts' as *;
+@use '../../../scss/base/colors' as c;
+
+
+.settings {
+	&__attribution {
+		--icon-size: 6em;
+
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		gap: .5ch;
+
+		.icon {
+			height: 1.5em;
+		}
+	}
+
+	&__api-key {
+		font-size: 1.4rem;
+		margin-bottom: 24px;
+	}
+}
+
+.setting {
+	&-heading {
+		@include heading(2);
+
+		margin-bottom: 24px;
+	}
+
+	align-items: center;
+	border: 1px solid c.$color-grey-2;
+	border-radius: 6px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+	justify-content: space-between;
+	margin: 24px 0;
+	padding: 16px;
+}

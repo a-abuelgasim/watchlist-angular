@@ -1,0 +1,24 @@
+@use '../abstracts/mixins' as *;
+
+html {
+	font-family: Poppins, sans-serif;
+	font-size: 10px;
+}
+
+body {
+	font-size: 1.6rem;
+}
+
+.heading {
+	&-1 {
+		@include heading(1);
+	}
+
+	&-2 {
+		@include heading(2);
+	}
+}
+
+.text-sm {
+	font-size: max(12px, .75em);
+}

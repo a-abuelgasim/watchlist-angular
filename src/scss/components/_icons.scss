@@ -1,0 +1,70 @@
+@use '../abstracts' as *;
+
+
+$icon-size: 1em;
+$icons: [
+	'add',
+	'add-to-list',
+	'caret',
+	'chevron',
+	'close',
+	'checked',
+	'unchecked',
+	'delete',
+	'edit',
+	'imdb',
+	'logo',
+	'menu',
+	'movie',
+	'remove',
+	'search',
+	'tv',
+	];
+$logos: [
+	'font-awesome',
+	'just-watch',
+	'tmdb',
+	'apple-tv',
+	'cbs',
+	'comedy-central',
+	'direct-tv',
+	'disney',
+	'fubotv',
+	'fox',
+	'fxnow',
+	'hbo-max',
+	'hulu',
+	'mgm',
+	'nbc',
+	'netflix',
+	'paramount',
+	'peacock',
+	'prime-video',
+	'showtime',
+	'starz',
+	'streamer',
+	'usa-network',
+	];
+
+
+.icon {
+	background-color: var(--icon-color, var(--color-text));
+	display: block;
+	height: var(--icon-size, #{$icon-size});
+	mask-repeat: no-repeat;
+	mask-size: 100% 100%;
+	transition: background-color $transition;
+	width: var(--icon-size, #{$icon-size});
+}
+
+@each $icon in $icons {
+	.icon--#{$icon} {
+		mask-image: url('../../assets/svgs/#{$icon}.svg');
+	}
+}
+
+@each $logo in $logos {
+	.icon--#{$logo} {
+		mask-image: url('../../assets/svgs/logos/#{$logo}.svg');
+	}
+}

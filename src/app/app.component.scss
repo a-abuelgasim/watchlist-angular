@@ -1,0 +1,10 @@
+@use '../scss/abstracts' as *;
+
+
+.main {
+	padding: $main-margin-top $side-padding 64px;
+
+	@include mq(tablet) {
+		padding-bottom: 120px;
+	}
+}

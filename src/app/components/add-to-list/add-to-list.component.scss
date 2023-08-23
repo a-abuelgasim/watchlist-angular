@@ -1,0 +1,11 @@
+@use '../../../scss/abstracts' as *;
+
+
+.add-to-list {
+	&__checkbox-list {
+		@media (height >= 500px) {
+			max-height: 40vh;
+			overflow-y: auto;
+		}
+	}
+}

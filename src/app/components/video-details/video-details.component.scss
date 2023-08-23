@@ -1,0 +1,35 @@
+@use '../../../scss/abstracts' as *;
+@use '../../../scss/base/colors' as c;
+
+
+.video-details {
+	--icon-size: 1.5em;
+
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 1.4rem;
+	margin-bottom: var(--video-details-margin-bottom);
+
+	@include mq(tablet) {
+		--icon-size: 1.75em;
+		--icon-btn-size: 3em;
+		--video-detail-before-side-margin: .75em;
+	}
+
+	&__detail {
+		align-items: center;
+		display: flex;
+
+		&:not(:last-child)::after {
+			$size: .35em;
+
+			background-color: c.$color-grey-2;
+			border-radius: 50%;
+			content: '';
+			height: $size;
+			margin: 0 var(--video-detail-before-side-margin, .5em);
+			width: $size;
+		}
+	}
+}

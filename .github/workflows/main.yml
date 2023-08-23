@@ -1,0 +1,108 @@
+name: Main CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  CYPRESS_CACHE_FOLDER: cypress/cache
+
+jobs:
+  deps:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+      - name: Cache Cypress
+        uses: actions/cache@v3
+        id: cypress-cache
+        with:
+          path: cypress/cache
+          key: ${{ runner.os }}-cypress-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+  lint:
+    name: Lint
+    needs: [deps]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Load node-modules cache
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+      - name: Lint
+        run: npm run lint
+
+  unit-tests:
+    name: Unit tests
+    needs: [deps]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+      - name: Load node-modules cache
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+      - name: Test
+        run: npm run test:unit
+
+  # e2e-tests:
+  #   name: End-to-end tests
+  #   needs: [deps]
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       browser: ['chrome', 'edge', 'firefox']
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+  #     - name: Set up node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version-file: '.nvmrc'
+  #     - name: Load node-modules cache
+  #       uses: actions/cache@v3
+  #       id: node-modules-cache
+  #       with:
+  #         path: node_modules
+  #         key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+  #     - name: Load Cypress cache
+  #       uses: actions/cache@v3
+  #       id: cypress-cache
+  #       with:
+  #         path: cypress/cache
+  #         key: ${{ runner.os }}-cypress-cache-${{ hashFiles('package.json', 'package-lock.json') }}
+  #     - name: Test
+  #       id: e2e-tests
+  #       run: npm run test:e2e:${{ matrix.browser }}

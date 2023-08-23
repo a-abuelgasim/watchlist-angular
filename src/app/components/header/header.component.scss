@@ -1,0 +1,163 @@
+@use '../../../scss/abstracts' as *;
+@use '../../../scss/base/colors' as c;
+
+
+$bar-width: 3px;
+
+
+.header {
+	padding: var(--header-padding, #{$side-padding});
+
+	@include mq(tablet) {
+		--header-padding: 16px #{$side-padding};
+
+		align-items: center;
+		border-bottom: 1px solid var(--color-grey-1);
+		display: flex;
+	}
+
+	&__main {
+		align-items: center;
+		display: flex;
+
+		@include mq($until: tablet) {
+			justify-content: space-between;
+		}
+	}
+
+	&__nav-btn {
+		@include mq(tablet) {
+			display: none;
+		}
+
+		&[aria-expanded='false'] .icon--close,
+		&[aria-expanded='true'] .icon--menu {
+			display: none;
+		}
+	}
+
+	&__divider {
+		$size: 40px;
+
+		background-color: var(--color-grey-1);
+		height: $size;
+		margin: 0 $size;
+		width: 1px;
+
+		@include mq($until: tablet) {
+			display: none;
+		}
+	}
+}
+
+
+.lockup {
+	align-items: center;
+	display: flex;
+	font-size: var(--lockup-name-font-size, 1.8rem);
+	gap: 12px;
+
+	@include mq(tablet) {
+		--lockup-name-font-size: 2rem;
+	}
+
+	&__logo {
+		&-container {
+			$size: 1.8em;
+
+			background-color: var(--color-text);
+			border-radius: 50%;
+			display: grid;
+			height: $size;
+			place-items: center center;
+			width: $size;
+		}
+
+		width: 70%;
+	}
+
+	&__name {
+		font-weight: 700;
+		letter-spacing: -.02em;
+	}
+}
+
+
+.nav {
+	$block: &;
+
+	&-wrapper {
+		@include mq($until: tablet) {
+			display: grid;
+			grid-template-rows: 0fr;
+			overflow: hidden;
+			transition: grid-template-rows .3s ease-in-out;
+
+			&--visible {
+				grid-template-rows: 1fr;
+			}
+		}
+	}
+
+	@include mq($until: tablet) {
+		min-height: 0;
+		transition: visibility $transition;
+		visibility: hidden;
+
+		&-wrapper--visible & {
+			visibility: visible;
+		}
+	}
+
+	&__ul {
+		@include mq($until: tablet) {
+			margin: 8px 0 32px;
+		}
+
+		@include mq(tablet) {
+			display: flex;
+			gap: 16px;
+		}
+	}
+
+	&__li {
+		border-color: var(--nav-li-active-border-color, transparent);
+		border-style: solid;
+		border-width: 0;
+		font-family: 'DM Sans', sans-serif;
+
+		@include mq($until: tablet) {
+			border-inline-start-width: $bar-width;
+			font-size: 2rem;
+		}
+
+		@include mq(tablet) {
+			border-block-end-width: $bar-width;
+		}
+
+		&--active {
+			--nav-li-active-border-color: #{c.$color-primary};
+
+			font-weight: 700;
+		}
+	}
+
+	&__a {
+		display: block;
+		padding: var(--nav-a-padding, 12px 32px);
+		transition: color $transition;
+
+		@include mq(tablet) {
+			--nav-a-padding: 8px;
+		}
+
+		&:focus-visible,
+		&:hover {
+			color: var(--color-interacting);
+		}
+
+		&:focus-visible {
+			outline: none;
+		}
+	}
+}

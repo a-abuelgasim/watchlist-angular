@@ -1,0 +1,58 @@
+<dialog
+    #listFormDialog
+    (close)="hidden.emit(submitted)"
+		class="dialog">
+  <p class="dialog__heading">
+    <ng-container *ngIf="!list.id && list.id !== 0; else formTitleElse">
+      Create a list
+    </ng-container>
+
+    <ng-template #formTitleElse>
+      Edit list
+    </ng-template>
+  </p>
+
+  <form
+      [formGroup]="formGroup"
+      (ngSubmit)="submitHandler()"
+			class="form">
+		<p
+        *ngIf="error"
+        aria-live="polite"
+				class="form-error">
+      {{error}}
+    </p>
+
+		<div>
+			<label
+					class="label"
+					for="edit-list-dialog-name-input">
+				List name
+			</label>
+
+			<input
+					[formControlName]="'name'"
+					autocomplete="off"
+					class="input"
+					id="edit-list-dialog-name-input"
+					name="name"
+					placeholder="Enter the list name..."
+					type="text"/>
+		</div>
+
+		<div class="form__actions">
+			<button
+					(click)="dialogElement.close()"
+					class="btn btn--flat"
+					type="button">
+				Cancel
+			</button>
+
+			<button
+					[disabled]="formGroup.invalid"
+					class="btn btn--primary">
+				Save
+			</button>
+		</div>
+  </form>
+</dialog>

@@ -1,0 +1,69 @@
+<header class="header container">
+	<div class="header__main">
+		<a
+				[routerLink]="'/'"
+				class="lockup">
+			<div class="lockup__logo-container">
+				<img
+						alt="app logo"
+						class="lockup__logo"
+						src="./assets/svgs/logo.svg">
+			</div>
+
+			<div class="lockup__name">
+				{{appName}}
+			</div>
+		</a>
+
+		<button
+				[attr.aria-expanded]="menuVisible"
+				(click)="toggleMenu()"
+				aria-controls="nav-wrapper"
+				aria-label="Toggle navigation menu"
+				class="header__nav-btn btn icon-btn">
+			<span class="icon icon--menu"></span>
+			<span class="icon icon--close"></span>
+		</button>
+	</div>
+
+	<div class="header__divider"></div>
+
+	<div
+			[class.nav-wrapper--visible]="menuVisible"
+			class="nav-wrapper"
+			id="nav-wrapper">
+		<nav class="nav">
+			<ul class="nav__ul">
+				<li
+						[routerLinkActive]="['nav__li--active']"
+						class="nav__li">
+					<a
+							[routerLink]="'/lists'"
+							class="nav__a">
+						Lists
+					</a>
+				</li>
+
+				<li
+						[routerLinkActive]="['nav__li--active']"
+						class="nav__li">
+					<a
+							[routerLink]="'/search'"
+							class="nav__a">
+						Search
+					</a>
+				</li>
+
+				<li
+						[routerLinkActive]="['nav__li--active']"
+						class="nav__li">
+					<a
+							[routerLink]="'/settings'"
+							class="nav__a">
+						Settings
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</header>

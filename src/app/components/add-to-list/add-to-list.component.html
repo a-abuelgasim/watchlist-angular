@@ -1,0 +1,80 @@
+<dialog
+    #addToListDialog
+    (close)="hidden.emit()"
+		class="dialog u-text-center">
+	<ng-container *ngIf="_video as video; else noVideo">
+		<h2 class="dialog__heading">
+			Add to lists
+		</h2>
+
+		<a
+				[fragment]="'new'"
+				[routerLink]="'/lists'"
+				class="add-to-list__new-list-btn btn btn--secondary u-mb-24">
+			<span class="icon icon--add"></span>
+			Add a list
+		</a>
+
+		<form
+				*ngIf="_video as video; else noVideo"
+				[formGroup]="addToListFormGroup"
+				(ngSubmit)="submitHandler()">
+			<p
+					*ngIf="error"
+					aria-live="polite"
+					class="form-error u-mb-24">
+				Sorry, there was an error.
+			</p>
+
+			<p
+					*ngIf="!error"
+					class="u-sr-only">
+				Select lists to add the video to
+			</p>
+
+			<ul
+					aria-label="Your lists"
+					class="add-to-list__checkbox-list checkbox-list">
+				<li
+						*ngFor="let list of formListsArray.controls; index as i"
+						[formArrayName]="'listsArray'"
+						class="checkbox">
+					<input
+							[formControlName]="i"
+							class="checkbox__input"
+							id="list-checkbox-{{i}}"
+							type="checkbox">
+					<label
+							class="checkbox__label"
+							for="list-checkbox-{{i}}">
+						<div class="checkbox__icon-wrapper">
+							<span class="icon icon--checked"></span>
+							<span class="icon icon--unchecked"></span>
+						</div>
+
+						{{lists?.[i]?.name}}
+					</label>
+				</li>
+			</ul>
+
+			<div class="form__actions">
+				<button
+						(click)="dialogEl.close()"
+						class="btn btn--flat"
+						type="button">
+					Cancel
+				</button>
+
+				<button
+						[disabled]="!canSubmit"
+						class="btn btn--primary">
+					Save
+				</button>
+			</div>
+		</form>
+	</ng-container>
+
+  <ng-template #noVideo>
+    Video not found
+  </ng-template>
+</dialog>

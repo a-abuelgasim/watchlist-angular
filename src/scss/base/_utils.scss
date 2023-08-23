@@ -1,0 +1,52 @@
+@use '../abstracts' as *;
+
+
+// Screen reader only
+.u-sr-only {
+	height: 1px;
+	left: -10000px;
+	overflow: hidden;
+	position: absolute;
+	top: auto;
+	width: 1px;
+}
+
+.u-mb-24 {
+	margin-bottom: 24px;
+}
+
+.u-mb-32 {
+	margin-bottom: 32px;
+}
+
+.u-mb-48 {
+	margin-bottom: 48px;
+}
+
+.u-text-center {
+	text-align: center;
+}
+
+.u-truncate-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.u-zero-state {
+	@include heading(2);
+
+	font-weight: 500;
+	margin-top: 25vh;
+	text-align: center;
+}
+
+.u-tutorial {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	margin: 0 auto;
+	max-width: 300px;
+	text-align: center;
+}

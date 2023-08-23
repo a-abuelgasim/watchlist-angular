@@ -1,0 +1,95 @@
+@use '../../../scss/abstracts' as *;
+@use '../../../scss/base/colors' as c;
+
+
+.video-page {
+	--video-details-margin-bottom: 3.2rem;
+
+	margin-top: -#{$main-margin-top};
+
+	&__hero {
+		aspect-ratio: 16 / 9;
+		background-color: c.$color-neutral-1;
+		margin: 0 -#{$side-padding} 24px;
+	}
+
+	&__backdrop {
+		display: block;
+		height: 100%;
+		object-fit: cover;
+		object-position: top;
+		width: 100%;
+	}
+
+	&__poster {
+		display: block;
+		height: 100%;
+		margin: 0 auto;
+	}
+
+	&__title {
+		margin-bottom: 32px;
+	}
+
+	&__overview {
+		margin-bottom: var(--video-overview-margin-bottom, 24px);
+
+		@include mq(tablet) {
+			--video-overview-margin-bottom: 48px;
+		}
+	}
+
+	&__lists {
+		display: grid;
+		gap: 24px;
+		margin-bottom: 48px;
+
+		@include mq(tablet) {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	&__list-label {
+		@include heading(4);
+
+		color: var(--color-text-muted);
+		margin-bottom: 8px;
+
+		&--streamers {
+			margin-bottom: 24px;
+		}
+	}
+
+	&__streamer {
+		&-list {
+			display: grid;
+			gap: 16px;
+			grid-template-columns: repeat(var(--video-page-streamer-grid-cols, 3), 1fr);
+
+			@include mq(500px) {
+				--video-page-streamer-grid-cols: 4;
+			}
+
+			@include mq(tablet) {
+				--video-page-streamer-grid-cols: 6;
+			}
+		}
+
+		--icon-size: 6em;
+
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		font-size: var(--video-page-streamer-font-size, 12px);
+		gap: 4px;
+		text-align: center;
+
+		@include mq(tablet) {
+			--video-page-streamer-font-size: 1.4rem;
+		}
+
+		&-icon {
+			width: 75%;
+		}
+	}
+}

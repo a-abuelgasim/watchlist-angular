@@ -1,0 +1,131 @@
+<section>
+	<ng-container *ngIf="list; else listNotFound">
+		<div class="title-bar">
+			<h1 class="title-bar__heading">
+				{{list.name}}
+			</h1>
+
+			<div class="title-bar__actions">
+				<button
+						(click)="formVisible = true"
+						aria-label="Edit list"
+						class="icon-btn">
+					<span class="icon icon--edit"></span>
+				</button>
+
+				<button
+						(click)="showDeleteDialog(true)"
+						aria-label="Delete list"
+						class="icon-btn">
+					<span class="icon icon--delete"></span>
+				</button>
+			</div>
+		</div>
+
+		<ul
+				*ngIf="videos && videos.length > 0"
+				aria-label="Videos"
+				class="list container container--narrow">
+			<li
+					*ngFor="let video of videos; index as i;"
+					class="list__item">
+				<app-video-card
+						[video]="video"
+						(add)="addVideoToList(video)"
+						(remove)="prepareVideoForRemoval(video)"
+						(moveUp)="moveVideo(i, -1)"
+						(moveDown)="moveVideo(i, 1)">
+				</app-video-card>
+			</li>
+		</ul>
+	</ng-container>
+</section>
+
+
+<ng-template #listNotFound>
+  <div
+			*ngIf="!loading"
+			class="u-zero-state">
+    Sorry, couldn't find this list.
+  </div>
+</ng-template>
+
+
+<dialog
+    #deleteDialog
+    (close)="deletionError = false"
+		class="dialog u-text-center">
+  <h2 class="dialog__heading">
+    <span *ngIf="aboutToDeleteList">
+      Delete list?
+    </span>
+
+    <span *ngIf="!aboutToDeleteList">
+      Remove video?
+    </span>
+  </h2>
+
+  <p
+			*ngIf="!deletionError"
+			class="u-mb-32">
+    <span *ngIf="aboutToDeleteList">
+      Are you sure you want to delete this list?
+    </span>
+
+    <span *ngIf="!aboutToDeleteList">
+      Are you sure you want to remove this video from the list?
+    </span>
+  </p>
+
+	<p
+      *ngIf="deletionError"
+      aria-live="polite"
+			class="form-error u-mb-24">
+    <span *ngIf="aboutToDeleteList">
+      There was a problem deleting this list.
+    </span>
+
+    <span *ngIf="!aboutToDeleteList">
+      There was a problem removing this video.
+    </span>
+  </p>
+
+	<div class="form__actions">
+		<button
+				(click)="hideDeleteDialog()"
+				class="btn btn--flat">
+			Cancel
+		</button>
+
+		<button
+				*ngIf="aboutToDeleteList"
+				[disabled]="deletingList"
+				(click)="deleteList()"
+				class="btn btn--danger">
+			Delete
+		</button>
+
+		<button
+				*ngIf="!aboutToDeleteList"
+				[disabled]="removingVideo"
+				(click)="removeVideo()"
+				class="btn btn--danger">
+			Remove
+		</button>
+	</div>
+</dialog>
+
+
+<app-list-form
+    *ngIf="list && formList"
+    [formList]="formList"
+    [show]="formVisible"
+    (hidden)="formVisible = false">
+</app-list-form>
+
+
+<app-add-to-list
+    [show]="showAddToListDialog"
+    [video]="video"
+    (hidden)="showAddToListDialog = false">
+</app-add-to-list>

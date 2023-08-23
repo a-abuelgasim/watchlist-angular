@@ -1,0 +1,27 @@
+@use '../abstracts' as *;
+
+
+.title-bar {
+	align-items: first baseline;
+	display: flex;
+	gap: var(--title-bar-gap, 16px);
+	justify-content: space-between;
+	margin-bottom: 48px;
+
+	@include mq(tablet) {
+		--title-bar-gap: 24px;
+	}
+
+	&__heading {
+		@include heading(1);
+	}
+
+	&__actions {
+		display: flex;
+		gap: 24px;
+
+		@include mq($until: tablet) {
+			justify-content: flex-end;
+		}
+	}
+}

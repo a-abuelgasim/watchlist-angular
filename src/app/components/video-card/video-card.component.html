@@ -1,0 +1,90 @@
+<div
+		*ngIf="video"
+		class="video-card">
+	<div
+			*ngIf="video.posterPath"
+			class="video-card__img-wrapper">
+		<a
+				*ngIf="video.serverID; else videoCardImageDiv"
+				[attr.aria-label]="video.title"
+				[queryParams]="{type: video.type}"
+				[routerLink]="['/video', video.serverID]"
+				class="video-card__a">
+			<ng-container
+					[ngTemplateOutlet]="videoCardImage"
+					[ngTemplateOutletContext]="{video:video}">
+			</ng-container>
+		</a>
+	</div>
+
+	<div class="video-card__bottom">
+		<div class="video-card__content">
+			<h2
+					*ngIf="video.title"
+					class="video-card__name">
+				{{video.title}}
+			</h2>
+
+			<app-video-details [video]="video"></app-video-details>
+		</div>
+
+		<div class="video-card__actions">
+			<ng-container *ngIf="onListPage">
+				<button
+						*ngIf="onListPage"
+						(click)="remove.emit()"
+						aria-label="Remove from this list"
+						class="icon-btn">
+					<span class="icon icon--remove"></span>
+				</button>
+
+				<button
+						*ngIf="onListPage"
+						(click)="moveUp.emit()"
+						aria-label="Move video up in list"
+						class="icon-btn video-card__move-up-btn">
+					<span class="icon icon--caret"></span>
+				</button>
+
+				<button
+						*ngIf="onListPage"
+						(click)="moveDown.emit()"
+						aria-label="Move video down in list"
+						class="icon-btn video-card__move-down-btn">
+					<span class="icon icon--caret"></span>
+				</button>
+			</ng-container>
+
+			<button
+					(click)="add.emit()"
+					aria-label="Add to another list"
+					class="icon-btn">
+				<span class="icon icon--add-to-list"></span>
+			</button>
+		</div>
+	</div>
+</div>
+
+
+<!-- TEMPLATES -->
+<ng-template #videoCardImageDiv>
+	<div>
+		<ng-container
+				[ngTemplateOutlet]="videoCardImage"
+				[ngTemplateOutletContext]="{video:video}">
+		</ng-container>
+	</div>
+</ng-template>
+
+
+<ng-template
+		#videoCardImage
+		let-video='video'>
+	<img
+			*ngIf="video.posterPath && (vds.getImgSources(video.posterPath!) | async) as posterSources"
+			class="video-card__img"
+			role="presentation"
+			sizes="154px"
+			src="{{posterSources['poster'].src}}"
+			srcset="{{posterSources['poster'].srcSet}}">
+</ng-template>

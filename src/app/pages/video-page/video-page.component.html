@@ -1,0 +1,181 @@
+<section class="video-page">
+	<ng-container *ngIf="video; else videoNotFound">
+		<!-- Hero -->
+		<div class="video-page__hero">
+			<ng-container *ngIf="
+					video.backdropPath &&
+					(vds.getImgSources(video.backdropPath!) | async) as imgSources">
+				<img
+						class="video-page__backdrop"
+						role="presentation"
+						src="{{imgSources['backdrop'].src}}"
+						srcset="{{imgSources['backdrop'].srcSet}}"
+						sizes="(max-width: 800px) 100w, 800px">
+			</ng-container>
+
+			<ng-container *ngIf="
+					!video.backdropPath &&
+					(vds.getImgSources(video.posterPath!) | async) as imgSources">
+				<img
+						class="video-page__poster"
+						role="presentation"
+						sizes="(max-width: 800px) 38vw, 300px"
+						src="{{imgSources['poster'].src}}"
+						srcset="{{imgSources['poster'].srcSet}}">
+			</ng-container>
+		</div>
+
+		<!-- Title bar -->
+		<div class="video-page__title title-bar">
+			<h1 class="title-bar__heading">
+				{{video.title}}
+			</h1>
+
+			<div class="title-bar__actions">
+				<a
+						*ngIf="video.imdbID"
+						aria-label="See more details at IMDB"
+						class="icon-btn"
+						href="https://www.imdb.com/title/{{video.imdbID}}"
+						target="_blank">
+					<span class="icon icon--imdb"></span>
+				</a>
+
+				<button
+						(click)="showAddToListDialog = true"
+						aria-label="Add to a list"
+						class="icon-btn">
+					<span class="icon icon--add-to-list"></span>
+				</button>
+			</div>
+		</div>
+
+		<!-- Details -->
+		<app-video-details
+				[video]="video"
+				[extended]="true">
+		</app-video-details>
+
+
+		<!-- Overview -->
+		<p
+				*ngIf="video.overview"
+				class="video-page__overview">
+			{{video.overview}}
+		</p>
+
+		<div class="video-page__lists">
+			<!-- Cast -->
+			<div
+					*ngIf="video.cast && video.cast.length > 0"
+					class="video-page__list-wrapper">
+				<div
+						aria-hidden="true"
+						class="video-page__list-label"
+						id="video-cast-label">
+					Cast:
+				</div>
+
+				<ul	aria-labelledby="video-cast-label">
+					<li *ngFor="let actor of video.cast">
+						{{actor}}
+					</li>
+				</ul>
+			</div>
+
+			<!-- Directors -->
+			<div
+					*ngIf="video.directors && video.directors.length > 0"
+					class="video-page__list-wrapper">
+				<div
+						aria-hidden="true"
+						class="video-page__list-label"
+						id="video-director-label">
+					Directed by:
+				</div>
+
+				<ul aria-labelledby="video-director-label">
+					<li *ngFor="let director of video.directors">
+						{{director}}
+					</li>
+				</ul>
+			</div>
+
+			<!-- Creators -->
+			<div
+					*ngIf="video.creators && video.creators.length > 0"
+					class="video-page__list-wrapper">
+				<div
+						aria-hidden="true"
+						class="video-page__list-label"
+						id="video-creator-label">
+					Created by:
+				</div>
+
+				<ul aria-labelledby="video-creator-label">
+					<li *ngFor="let creator of video.creators">
+						{{creator}}
+					</li>
+				</ul>
+			</div>
+
+			<!-- Genres -->
+			<div
+					*ngIf="video.genres && video.genres.length > 0"
+					class="video-page__list-wrapper">
+				<div
+						aria-hidden="true"
+						class="video-page__list-label"
+						id="video-genres-label">
+					Genres:
+				</div>
+
+				<ul aria-labelledby="video-genres-label">
+					<li *ngFor="let genre of video.genres">
+						{{genre}}
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Streamers -->
+		<ng-container *ngIf="streamers && streamers.length > 0">
+			<div
+					aria-hidden="true"
+					class="video-page__list-label video-page__list-label--streamers"
+					id="video-streamers-label">
+				Streaming on:
+			</div>
+
+			<ul
+					aria-labelledby="video-streamers-label"
+					class="video-page__streamer-list">
+				<li
+						*ngFor="let streamer of streamers"
+						class="video-page__streamer">
+					<span
+							*ngIf="getStreamerLogoName(streamer)"
+							class="video-page__streamer-icon icon icon--{{getStreamerLogoName(streamer)}}">
+					</span>
+
+					{{streamer}}
+				</li>
+			</ul>
+		</ng-container>
+
+		<app-add-to-list
+			[show]="showAddToListDialog"
+			[video]="video"
+			(hidden)="showAddToListDialog = false">
+		</app-add-to-list>
+	</ng-container>
+</section>
+
+
+<ng-template #videoNotFound>
+  <div
+			*ngIf="!loading"
+			class="u-zero-state">
+    Sorry, couldn't find this video.
+  </div>
+</ng-template>

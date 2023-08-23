@@ -1,0 +1,54 @@
+@use '../../../scss/abstracts' as *;
+
+
+.lists {
+	&__actions {
+		display: flex;
+		gap: 32px;
+		margin-bottom: 40px;
+
+		@include mq($until: tablet) {
+			flex-direction: column;
+		}
+	}
+
+	&__filter {
+		flex-grow: 1;
+	}
+
+	&__list {
+		display: grid;
+		gap: 24px;
+		margin-bottom: 40px;
+	}
+}
+
+.list {
+	@include card;
+
+	&__name {
+		@include heading(2);
+	}
+
+	&__posters {
+		display: flex;
+		gap: 8px;
+		overflow: auto;
+	}
+
+	&__poster {
+		--fully-visible-posters: 3;
+
+		border-radius: 6px;
+		flex-shrink: 0;
+		width: calc((100% - (var(--fully-visible-posters) * 8px)) / var(--fully-visible-posters) - 8px);
+
+		@include mq(500px) {
+			--fully-visible-posters: 5;
+		}
+
+		@include mq(tablet) {
+			--fully-visible-posters: 7;
+		}
+	}
+}

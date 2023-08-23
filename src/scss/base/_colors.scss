@@ -1,0 +1,39 @@
+$color-neutral-1: #141416;
+$color-neutral-2: #23262f;
+$color-neutral-3: #575d71;
+$color-neutral-4: #777e90;
+$color-neutral-5: #b1b5c3;
+$color-neutral-6: #e6e8ec;
+$color-neutral-7: #f4f5f6;
+$color-neutral-8: #fcfcfd;
+$color-blue-300: #64b5f6;
+$color-blue-400: #42a5f5;
+$color-blue-500: #2196f3;
+$color-blue-800: #1565c0;
+$color-red-400: #ef5350;
+$color-red-800: #c62828;
+$color-primary: $color-blue-800;
+$color-grey-2: $color-neutral-4;
+
+
+:root {
+	--color-danger: #{$color-red-400};
+	--color-interactive: #{$color-blue-500};
+	--color-interacting: #{$color-blue-300};
+	--color-bg-1: #{$color-neutral-1};
+	--color-bg-2: #{$color-neutral-2};
+	--color-grey-1: #{$color-neutral-3};
+	--color-text: #{$color-neutral-8};
+	--color-text-muted: #{$color-neutral-5};
+}
+
+.light-theme {
+	--color-danger: #{$color-red-800};
+	--color-interactive: #{$color-blue-800};
+	--color-interacting: #{$color-blue-400};
+	--color-bg-1: #{$color-neutral-6};
+	--color-bg-2: #{$color-neutral-8};
+	--color-grey-1: #{$color-neutral-5};
+	--color-text: #{$color-neutral-1};
+	--color-text-muted: #{$color-neutral-3};
+}

@@ -1,0 +1,70 @@
+<section>
+	<h1 class="heading-1 u-mb-24">
+		Search
+	</h1>
+
+	<p class="u-mb-24">
+		Search for movies and tv shows to add to your lists.
+	</p>
+
+	<p
+			*ngIf="!vds.apiKey"
+			class="u-mb-24"
+			[innerHTML]="apiKeyMsg">
+	</p>
+
+	<label
+			class="u-sr-only"
+			for="video-search-input">
+		Search
+	</label>
+
+	<div class="search-wrapper u-mb-24">
+		<span class="icon icon--search"></span>
+
+		<input
+				[formControl]="inputFormControl"
+				(input)="inputHandler($event)"
+				aria-description="Search results will appear below"
+				autocomplete="off"
+				class="search"
+				id="video-search-input"
+				type="search">
+	</div>
+
+	<p
+			*ngIf="noResults"
+			aria-live="polite"
+			class="u-text-center">
+		No results found.
+	</p>
+
+	<div
+			#resultsFeed
+			[attr.aria-busy]="ariaBusy"
+			(scrolled)="infiniteScrollHandler()"
+			infiniteScroll
+			aria-label="Search results"
+			class="list container container--narrow"
+			role="feed">
+		<div
+				*ngFor="let video of results; index as i"
+				attr.aria-label="{{video.title}}"
+				attr.aria-posinset="{{i + 1}}"
+				attr.aria-setsize="{{results.length}}"
+				role="article"
+				tabindex="0">
+			<app-video-card
+					[video]="video"
+					(add)="addVideoToList(video)">
+			</app-video-card>
+		</div>
+	</div>
+</section>
+
+
+<app-add-to-list
+    [show]="showAddToListDialog"
+    [video]="videoToAdd"
+    (hidden)="showAddToListDialog = false">
+</app-add-to-list>

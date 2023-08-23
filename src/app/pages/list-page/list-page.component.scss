@@ -1,0 +1,10 @@
+.list {
+	&__item {
+		// stylelint-disable selector-pseudo-element-no-unknown
+		&:first-child ::ng-deep .video-card__move-up-btn,
+		&:last-child ::ng-deep .video-card__move-down-btn {
+			display: none;
+		}
+		// stylelint-enable selector-pseudo-element-no-unknown
+	}
+}

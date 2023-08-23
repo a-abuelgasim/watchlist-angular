@@ -1,0 +1,139 @@
+<section class="settings container container--narrow">
+	<h1 class="heading-1 u-mb-24">
+		Settings
+	</h1>
+
+	<div class="u-mb-48">
+		<h2 class="setting-heading">
+			Color theme
+		</h2>
+		<div class="setting">
+			<div aria-hidden="true">
+				Light theme
+			</div>
+			<label
+					class="switch"
+					for="color-theme-toggle">
+				<span class="u-sr-only">Light theme:</span>
+				<input
+						#lightThemeCheckbox
+						(change)="colorThemeChangeHandler()"
+						[(ngModel)]="lightTheme"
+						class="switch__input"
+						id="color-theme-toggle"
+						type="checkbox">
+				<span class="switch__slider"></span>
+			</label>
+		</div>
+	</div>
+
+	<div class="u-mb-48">
+		<h2 class="setting-heading">
+			API key
+		</h2>
+		<p [innerHTML]="apiKeyMsg"></p>
+		<div class="setting">
+			<div>
+				API key
+			</div>
+			<div class="u-truncate-text">
+				<em *ngIf="apiKey">
+					{{apiKey}}
+				</em>
+				<span *ngIf="!apiKey">
+					No API key saved
+				</span>
+			</div>
+		</div>
+
+		<button
+				(click)="showDialog()"
+				class="btn btn--primary">
+			<ng-container *ngIf="apiKey">
+				Edit API key
+			</ng-container>
+
+			<ng-container *ngIf="!apiKey">
+				Add API key
+			</ng-container>
+		</button>
+	</div>
+
+	<div>
+		<h2 class="setting-heading">
+			Attribution & credits
+		</h2>
+		<p class="settings__attribution">
+			Powered by
+			<a aria-label="TMDB" href="https://www.themoviedb.org/" target="_blank">
+				<span class="icon icon--tmdb"></span>
+			</a>
+		</p>
+		<p class="settings__attribution">
+			Streaming service information provided by
+			<a aria-label="Just Watch" href="https://www.justwatch.com/" target="_blank">
+				<span class="icon icon--just-watch"></span>
+			</a>
+		</p>
+		<p class="settings__attribution">
+			Icons provided by <a href="https://iconduck.com/" target="_blank">
+				Icon Duck
+			</a> & <a aria-label="Font awesome" href="https://fontawesome.com/" target="_blank">
+				<span class="icon icon--font-awesome"></span>
+			</a>
+		</p>
+		<p>
+			<a href="https://iconscout.com/icons/tv" target="_blank">Free Tv Icon</a> by <a href="https://iconscout.com/contributors/twitter-inc" target="_blank">Twitter Emoji</a> on <a href="https://iconscout.com" target="_blank">IconScout</a>
+		</p>
+	</div>
+</section>
+
+
+<dialog
+    #apiKeyDialog
+    (close)="error = false"
+		class="dialog">
+	<p class="dialog__heading">
+		API Key
+	</p>
+
+  <form (ngSubmit)="apiKeySubmitHandler()">
+    <p
+				*ngIf="error"
+				class="form-error u-mb-24">
+      Sorry, there was an error.
+    </p>
+
+    <div class="settings__api-key">
+			<label
+					class="label"
+					for="api-key-input">
+				TMDB API key
+			</label>
+
+      <input
+          #apiKeyInput
+          autocomplete="off"
+					class="input"
+          id="api-key-input"
+					placeholder="Enter your TMDB API key..."
+          type="text"
+					value="{{apiKey}}">
+    </div>
+
+    <div class="form__actions">
+      <button
+          (click)="dialogEl.close()"
+					class="btn btn--flat"
+          type="button">
+        Cancel
+      </button>
+
+      <button
+					[disabled]="!canSubmit"
+					class="btn btn--primary">
+        Save
+      </button>
+    </div>
+  </form>
+</dialog>

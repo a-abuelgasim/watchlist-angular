@@ -1,0 +1,101 @@
+@use '../abstracts' as *;
+@use '../base/colors' as c;
+
+
+@function btn-color-mix($css-var, $mix-color) {
+	@return color-mix(in srgb, $css-var 77%, $mix-color);
+}
+
+.btn,
+.icon-btn {
+	transition: color $transition;
+
+	&:not([disabled]) {
+		cursor: pointer;
+	}
+
+	&[disabled] {
+		opacity: .5;
+	}
+}
+
+
+.btn {
+	--icon-color: var(--btn-color);
+	--icon-size: 1.25em;
+
+	align-items: center;
+	background-color: var(--btn-bg-color, transparent);
+	border: none;
+	border-radius: var(--btn-border-radius, 90px);
+	color: var(--btn-color);
+	display: inline-flex;
+	font: 700 1.6rem 'DM Sans', sans-serif;
+	gap: 12px;
+	justify-content: center;
+	padding: var(--btn-padding, 12px);
+	transition: background-color $transition;
+	white-space: nowrap;
+	width: var(--btn-width, auto);
+
+	&:not([disabled]):hover {
+		background-color: btn-color-mix(var(--btn-bg-color, transparent), var(--btn-hover-mix-bg-color, var(--color-text)));
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--color-text-muted);
+	}
+
+	&--danger,
+	&--primary,
+	&--secondary {
+		--btn-padding: 12px 24px;
+	}
+
+	&--danger,
+	&--primary {
+		--btn-color: #{c.$color-neutral-8};
+	}
+
+	&--flat,
+	&--secondary {
+		--btn-hover-mix-bg-color: var(--color-grey-1);
+	}
+
+	&--danger {
+		--btn-bg-color: #{c.$color-red-800};
+	}
+
+	&--flat {
+		--btn-border-radius: 12px;
+	}
+
+	&--primary {
+		--btn-bg-color: #{c.$color-blue-800};
+	}
+
+
+	&--secondary {
+		border: 2px solid var(--color-text-muted);
+
+		&:focus-visible {
+			background-color: btn-color-mix(var(--btn-bg-color, transparent), var(--btn-hover-mix-bg-color, var(--color-text)));
+		}
+	}
+}
+
+
+.icon-btn {
+	--icon-size: var(--icon-btn-size, 24px);
+
+	background: none;
+	border: none;
+
+	&:focus-visible,
+	&:not([disabled]):hover {
+		--icon-color: var(--color-interacting);
+
+		background: none;
+		outline: none;
+	}
+}

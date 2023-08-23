@@ -1,0 +1,265 @@
+@use 'sass:math';
+@use '../abstracts' as *;
+@use '../base/colors' as c;
+@use './icons';
+
+
+$icon-offset-padding: calc(icons.$icon-size + $side-padding + 8px);
+
+.input,
+.search,
+.select {
+	background-color: transparent;
+	border: 2px solid var(--form-element-border-color, var(--color-text-muted));
+	color: inherit;
+	font-size: inherit;
+	line-height: 1.5em;
+	padding: 12px $side-padding;
+	transition: color $transition, border-color $transition;
+	width: 100%;
+
+	&:focus-visible,
+	&:not([disabled]):hover {
+		--form-element-border-color: var(--color-interacting);
+
+		outline: none;
+	}
+}
+
+
+.search,
+.select {
+	&-wrapper {
+		position: relative;
+
+		&:focus-within,
+		&:not([disabled]):hover {
+			--icon-color: var(--color-interacting);
+		}
+
+		.icon {
+			--icon-size: #{icons.$icon-size};
+
+			left: $side-padding;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+}
+
+
+.input,
+.select {
+	border-radius: 12px;
+}
+
+
+.checkbox {
+	$block: &;
+
+	&-list {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	display: flex;
+	font-size: 1.4rem;
+	font-weight: 500;
+	line-height: 1.7em;
+
+	&__input {
+		appearance: none;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&__label {
+		$label: &;
+
+		align-items: center;
+		color: var(--checkbox-label-color);
+		display: flex;
+		gap: 12px;
+		transition: color $transition;
+		user-select: none;
+
+		#{$block}__input:not([disabled]) + & {
+			cursor: pointer;
+		}
+
+		#{$block}__input[disabled] + & {
+			--checkbox-label-color: #{c.$color-grey-2};
+		}
+
+		&:not([disabled]):hover,
+		#{$block}__input:focus-visible + & {
+			--checkbox-label-color: var(--color-interacting);
+		}
+	}
+
+	&__icon-wrapper {
+		--icon-size: 24px;
+
+		display: inline-block;
+		flex-shrink: 0;
+		height: var(--icon-size);
+		position: relative;
+		width: var(--icon-size);
+
+		.icon {
+			inset: 0;
+			position: absolute;
+
+			&.icon--checked {
+				--icon-color: transparent;
+			}
+
+			#{$block}__input:checked + #{$block}__label & {
+				--icon-color: var(--color-interactive);
+			}
+
+			#{$block}__input + #{$block}__label:hover &--unchecked,
+			#{$block}__input:focus-visible + #{$block}__label &--unchecked,
+			#{$block}__input:checked + #{$block}__label:hover &,
+			#{$block}__input:checked:focus-visible + #{$block}__label & {
+				--icon-color: var(--color-interacting);
+			}
+		}
+
+		#{$block}__input:checked + #{$block}__label & {
+			animation: checkbox-animation $transition;
+		}
+	}
+}
+
+
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+
+	&-error {
+		color: var(--color-danger);
+		font-weight: 500;
+		text-align: center;
+	}
+
+	&__actions {
+		display: flex;
+		gap: 32px;
+		justify-content: flex-end;
+		margin-top: 24px;
+	}
+}
+
+
+.label {
+	color: var(--color-text-muted);
+	display: inline-block;
+	font-size: 12px;
+	font-weight: 700;
+	margin-bottom: 12px;
+	text-transform: uppercase;
+}
+
+
+.search {
+	border-radius: 90px;
+	padding-left: $icon-offset-padding;
+}
+
+
+.select {
+	&-wrapper {
+		&:focus-within,
+		&:not([disabled]):hover {
+			color: var(--color-interacting);
+		}
+
+		.icon {
+			left: auto;
+			right: $side-padding;
+		}
+	}
+
+	appearance: none;
+	padding-right: $icon-offset-padding;
+	position: relative;
+
+	&::after {
+		content: '';
+		inset: 0;
+		position: absolute;
+	}
+
+	&:not([disabled]):hover {
+		cursor: pointer;
+	}
+}
+
+
+.switch {
+	$block: &;
+	$switch-height: 34px;
+
+	display: inline-block;
+	height: $switch-height;
+	position: relative;
+	width: 60px;
+
+	&__input {
+		appearance: none;
+	}
+
+	&__slider {
+		$knob-size: 26px;
+
+		background-color: var(--color-grey-1);
+		border-radius: $switch-height;
+		bottom: 0;
+		cursor: pointer;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+		transition: transform $transition, background-color $transition;
+
+		&::before {
+			$gap: math.div(($switch-height - $knob-size), 2);
+
+			background-color: c.$color-neutral-8;
+			border-radius: 50%;
+			bottom: $gap;
+			content: '';
+			height: $knob-size;
+			left: $gap;
+			position: absolute;
+			transition: transform $transition;
+			width: $knob-size;
+		}
+
+		#{$block}__input:checked + & {
+			background-color: c.$color-primary;
+
+			&::before {
+				transform: translateX($knob-size);
+			}
+		}
+
+		#{$block}__input:focus-visible + &,
+		#{$block}__input:not([disabled]):hover + & {
+			background-color: var(--color-interacting);
+		}
+	}
+}
+
+
+@keyframes checkbox-animation {
+	50% {
+		transform: scale(.9);
+	}
+}
