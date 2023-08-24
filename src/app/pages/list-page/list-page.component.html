@@ -22,6 +22,22 @@
 			</div>
 		</div>
 
+		<!-- Zero state -->
+		<div
+				*ngIf="videos?.length === 0 && tutorial"
+				class="u-tutorial">
+			<p class="u-mb-24">
+				Search for movies and TV shows to add to your list.
+			</p>
+
+			<a
+					[routerLink]="'/search'"
+					class="btn btn--primary">
+				<span class="icon icon--search"></span>
+				Search
+			</a>
+		</div>
+
 		<ul
 				*ngIf="videos && videos.length > 0"
 				aria-label="Videos"
