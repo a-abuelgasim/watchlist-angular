@@ -20,12 +20,8 @@
 		<ng-container *ngIf="listCount === 0">
 			<div class="u-tutorial">
 				<div *ngIf="tutorial">
-					<p class="u-mb-16">
-						To get started add a new list.
-					</p>
-
 					<p class="u-mb-24">
-						Then search for movies and TV shows to add to your list.
+						To get started add a new list, then head on over to the search page to search for movies and TV shows to add to your list.
 					</p>
 				</div>
 
@@ -45,17 +41,16 @@
 					<label
 							class="u-sr-only"
 							for="search-filter">
-						Search for a list
+						Search your lists
 					</label>
 
 					<input
 							[formControl]="listFilter"
 							autocomplete="off"
-							class="search"
+							class="input"
 							id="search-filter"
-							placeholder="Search for a list..."
+							placeholder="Search your lists..."
 							type="text">
-					<span class="icon icon--search"></span>
 				</div>
 
 				<div class="select-wrapper">
@@ -80,8 +75,10 @@
 				</div>
 			</div>
 
-			<ul class="lists__list">
-				<li *ngFor="let videoList of videoLists; trackBy: identifyList">
+			<ul class="lists__ul">
+				<li
+						*ngFor="let videoList of videoLists; trackBy: identifyList"
+						class="lists__li">
 					<a
 							[routerLink]="['/list', videoList.id]"
 							class="list">
@@ -114,7 +111,7 @@
 </section>
 
 
-<app-list-form
+<app-list-dialog
     [show]="listDialogVisible"
     (hidden)="listDialogVisible = false">
-</app-list-form>
+</app-list-dialog>

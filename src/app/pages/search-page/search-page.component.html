@@ -4,14 +4,24 @@
 	</h1>
 
 	<p class="u-mb-24">
-		Search for movies and tv shows to add to your lists.
+		{{searchMsg}}
+		You can search by name, actor or director.
 	</p>
 
-	<p
-			*ngIf="!vds.apiKey"
-			class="u-mb-24"
-			[innerHTML]="apiKeyMsg">
-	</p>
+	<div
+			*ngIf="showBanner"
+			class="banner u-mb-24">
+		<p [innerHTML]="apiKeyMsg"></p>
+
+		<div class="banner__actions">
+			<button
+					(click)="dismissBanner()"
+					aria-label="Dismiss banner"
+					class="icon-btn">
+				<span class="icon icon--close"></span>
+			</button>
+		</div>
+	</div>
 
 	<label
 			class="u-sr-only"
@@ -29,14 +39,22 @@
 				autocomplete="off"
 				class="search"
 				id="video-search-input"
+				placeholder="Search movies & TV shows..."
 				type="search">
 	</div>
 
 	<p
-			*ngIf="noResults"
+			*ngIf="noResults && !error"
 			aria-live="polite"
 			class="u-text-center">
 		No results found.
+	</p>
+
+	<p
+			*ngIf="error"
+			aria-live="polite"
+			class="u-text-center u-error">
+		{{error}}
 	</p>
 
 	<div

@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TMDBService } from '../../services/video/tmdb.service';
 
 
-export const API_KEY_MESSAGE = `To get the most out of this app you'll need to add a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> to the app settings so you can search for any movie or TV show. Without a key you'll only be able to search through a limited set of Marvel Cinematic Universe content.`;
+export const API_KEY_MESSAGE = `Watchy is in demo mode, so you can only search for movies and TV shows from the Marvel Cinematic Universe. To search for other movies and TV shows you'll need to get a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> and add it Watchy in the settings.`;
 export const LIGHT_THEME_CLASS = 'light-theme';
 export const LIGHT_THEME_LS_KEY = 'lightTheme';
 
@@ -13,24 +13,41 @@ export const LIGHT_THEME_LS_KEY = 'lightTheme';
   styleUrls: ['./settings-page.component.scss']
 })
 export class SettingsViewComponent {
-  apiKey = this.tmdbs.apiKey;
+  addAPIKeyError = false;
 	apiKeyMsg = API_KEY_MESSAGE;
   canSubmit = true;
   lightTheme: boolean;
-  error = false;
 
 
-  @ViewChild('lightThemeCheckbox') checkbox!: ElementRef<HTMLInputElement>;
-  @ViewChild('apiKeyDialog') dialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('addAPIKeyDialog') addAPIKeyDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('apiKeyInput') input!: ElementRef<HTMLInputElement>;
+  @ViewChild('deleteAPIKeyDialog') deleteAPIKeyDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('lightThemeCheckbox') checkbox!: ElementRef<HTMLInputElement>;
 
 
-  get dialogEl() { return this.dialog.nativeElement }
+  get addAPIKeyDialogEl() { return this.addAPIKeyDialog.nativeElement }
+	get apiKey() {return this.tmdbs.apiKey }
+  get deleteAPIKeyDialogEl() { return this.deleteAPIKeyDialog.nativeElement }
   get inputEl() { return this.input?.nativeElement }
 
 
   constructor(private tmdbs: TMDBService) {
     this.lightTheme = document.body.classList.contains(LIGHT_THEME_CLASS);
+  }
+
+
+  apiKeySubmitHandler() {
+    this.canSubmit = false;
+
+    try {
+      this.tmdbs.apiKey = this.inputEl.value;
+      this.addAPIKeyDialogEl.close();
+    } catch(err) {
+      this.addAPIKeyError = true;
+      console.error(err);
+    } finally {
+      this.canSubmit = true;
+    }
   }
 
 
@@ -40,24 +57,14 @@ export class SettingsViewComponent {
   }
 
 
-	showDialog() {
-		this.dialogEl.showModal();
-		this.dialogEl.focus();
+	deleteAPIKey() {
+		this.tmdbs.apiKey = null;
+		this.deleteAPIKeyDialogEl.close();
 	}
 
 
-  apiKeySubmitHandler() {
-    this.canSubmit = false;
-
-    try {
-      this.tmdbs.apiKey = this.inputEl.value;
-      this.apiKey = this.inputEl.value;
-      this.dialogEl.close();
-    } catch(err) {
-      this.error = true;
-      console.error(err);
-    } finally {
-      this.canSubmit = true;
-    }
-  }
+	showAddAPIKeyDialog() {
+		this.addAPIKeyDialogEl.showModal();
+		this.addAPIKeyDialogEl.focus();
+	}
 }

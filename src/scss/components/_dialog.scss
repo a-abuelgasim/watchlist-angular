@@ -17,6 +17,10 @@
 		background-color: rgba(colors.$color-neutral-1, .3);
 	}
 
+	&--invisible {
+		visibility: hidden;
+	}
+
 	&__heading {
 		@include heading(2);
 

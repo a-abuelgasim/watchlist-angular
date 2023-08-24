@@ -14,9 +14,9 @@ const ERROR_MSG = 'Sorry, there was an error.';
 
 
 @Component({
-  selector: 'app-list-form',
-  templateUrl: './list-form.component.html',
-  styleUrls: ['./list-form.component.scss'],
+  selector: 'app-list-dialog',
+  templateUrl: './list-dialog.component.html',
+  styleUrls: ['./list-dialog.component.scss'],
   standalone: true,
   imports: [NgIf, ReactiveFormsModule],
 })

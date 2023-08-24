@@ -11,6 +11,7 @@ import {
   Observable,
   Subject,
   Subscription,
+  catchError,
   debounceTime,
   distinctUntilChanged,
   merge,
@@ -23,7 +24,13 @@ import { VideoSearchResult } from '../../utils/video';
 import { FormControl } from '@angular/forms';
 import { NavigationStart, Router } from '@angular/router';
 import { API_KEY_MESSAGE } from '../settings-page/settings-page.component';
+import { INVALID_API_KEY_ERROR_MSG } from '../../services/video/tmdb.service';
 
+
+export const SEARCH_MSG = 'Search for movies & tv shows to add to your lists.';
+
+
+const HIDE_SEARCH_PAGE_BANNER_LS_KEY = 'hideSearchPageBanner';
 
 @Component({
   selector: 'app-search-page',
@@ -31,8 +38,10 @@ import { API_KEY_MESSAGE } from '../settings-page/settings-page.component';
   styleUrls: ['./search-page.component.scss']
 })
 export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy {
-	apiKeyMsg = `${API_KEY_MESSAGE} If you have one, you can add it in the settings.`;
+	apiKeyMsg = API_KEY_MESSAGE;
   ariaBusy = false;
+	showBanner: boolean;
+	error?: string;
 	inputFormControl!: FormControl<string | number | null>;
 	mainSub!: Subscription;
   noResults = false;
@@ -43,6 +52,7 @@ export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy 
   results$!: Observable<VideoSearchResult[]>;
 	routerEventSub!: Subscription;
   scrollEnd$ = new Subject<null>;
+	searchMsg = SEARCH_MSG;
   showAddToListDialog = false;
   totalPages!: number;
   videoToAdd?: VideoSearchResult;
@@ -54,8 +64,16 @@ export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy 
   constructor(
 		private cdRef: ChangeDetectorRef,
 		private router: Router,
-		public vds: VideoDataService
-	) {}
+		private vds: VideoDataService
+	) {
+		this.showBanner = !((localStorage.getItem(HIDE_SEARCH_PAGE_BANNER_LS_KEY) || 'false') == 'true') && !this.vds.apiKey;
+	}
+
+
+	dismissBanner() {
+		this.showBanner = false;
+		localStorage.setItem(HIDE_SEARCH_PAGE_BANNER_LS_KEY, 'true');
+	}
 
 
   ngOnInit() {
@@ -71,12 +89,23 @@ export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy 
 					this.page = 1;
 					this.results = [];
 					this.noResults = false;
+					this.error = '';
 				})
 			),
 			this.scrollEnd$
 		).pipe(
 			// Search for videos
-			switchMap(_ => this.query ? this.vds.search(this.query, this.page) : of(null)),
+			switchMap(_ => !this.query ?
+				of(null) :
+				this.vds.search(this.query, this.page).pipe(
+					catchError((error) => {
+						if (error == INVALID_API_KEY_ERROR_MSG) {
+							this.error = error;
+						}
+						return of(null)
+					})
+				)
+			),
 			tap((searchResponse) => {
 				// Set aria-busy = true for the results div with role of 'feed'
 				this.ariaBusy = true;

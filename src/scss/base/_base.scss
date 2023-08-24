@@ -56,7 +56,7 @@ a {
 	@at-root p & {
 		--icon-color: var(--color-interactive);
 
-		color: var(--color-interactive);
+		color: var(--a-color, var(--color-interactive));
 		font-weight: 700;
 		transition: color $transition;
 

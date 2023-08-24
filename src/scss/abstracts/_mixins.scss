@@ -9,6 +9,11 @@
 	padding: var(--card-padding, #{$card-padding});
 }
 
+@mixin error {
+	color: var(--color-danger);
+	font-weight: 500;
+}
+
 
 @mixin heading($n) {
 	font-family: 'DM Sans', sans-serif;

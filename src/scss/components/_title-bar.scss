@@ -6,7 +6,7 @@
 	display: flex;
 	gap: var(--title-bar-gap, 16px);
 	justify-content: space-between;
-	margin-bottom: 48px;
+	margin-bottom: 40px;
 
 	@include mq(tablet) {
 		--title-bar-gap: 24px;

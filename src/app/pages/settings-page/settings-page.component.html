@@ -31,7 +31,11 @@
 		<h2 class="setting-heading">
 			API key
 		</h2>
-		<p [innerHTML]="apiKeyMsg"></p>
+
+		<p
+				*ngIf="!apiKey"
+				[innerHTML]="apiKeyMsg"></p>
+
 		<div class="setting">
 			<div>
 				API key
@@ -46,17 +50,26 @@
 			</div>
 		</div>
 
-		<button
-				(click)="showDialog()"
-				class="btn btn--primary">
-			<ng-container *ngIf="apiKey">
-				Edit API key
-			</ng-container>
+		<div class="settings__btns">
+			<button
+					(click)="showAddAPIKeyDialog()"
+					class="btn btn--primary">
+				<ng-container *ngIf="apiKey">
+					Edit API key
+				</ng-container>
 
-			<ng-container *ngIf="!apiKey">
-				Add API key
-			</ng-container>
-		</button>
+				<ng-container *ngIf="!apiKey">
+					Add API key
+				</ng-container>
+			</button>
+
+			<button
+					*ngIf="apiKey"
+					(click)="deleteAPIKeyDialogEl.showModal()"
+					class="btn btn--danger">
+				Delete API key
+			</button>
+		</div>
 	</div>
 
 	<div>
@@ -90,8 +103,8 @@
 
 
 <dialog
-    #apiKeyDialog
-    (close)="error = false"
+    #addAPIKeyDialog
+    (close)="addAPIKeyError = false"
 		class="dialog">
 	<p class="dialog__heading">
 		API Key
@@ -99,31 +112,29 @@
 
   <form (ngSubmit)="apiKeySubmitHandler()">
     <p
-				*ngIf="error"
+				*ngIf="addAPIKeyError"
 				class="form-error u-mb-24">
       Sorry, there was an error.
     </p>
 
-    <div class="settings__api-key">
-			<label
-					class="label"
-					for="api-key-input">
-				TMDB API key
-			</label>
+		<label
+				class="label"
+				for="api-key-input">
+			TMDB API key
+		</label>
 
-      <input
-          #apiKeyInput
-          autocomplete="off"
-					class="input"
-          id="api-key-input"
-					placeholder="Enter your TMDB API key..."
-          type="text"
-					value="{{apiKey}}">
-    </div>
+		<input
+				#apiKeyInput
+				autocomplete="off"
+				class="input"
+				id="api-key-input"
+				placeholder="Enter your TMDB API key..."
+				type="text"
+				value="{{apiKey}}">
 
     <div class="form__actions">
       <button
-          (click)="dialogEl.close()"
+          (click)="addAPIKeyDialogEl.close()"
 					class="btn btn--flat"
           type="button">
         Cancel
@@ -136,4 +147,31 @@
       </button>
     </div>
   </form>
+</dialog>
+
+
+<dialog
+    #deleteAPIKeyDialog
+		class="dialog u-text-center">
+  <h2 class="dialog__heading">
+		Delete API key?
+  </h2>
+
+  <p class="u-mb-32">
+		Are you sure you want to delete this API Key?
+  </p>
+
+	<div class="form__actions">
+		<button
+				(click)="deleteAPIKeyDialogEl.close()"
+				class="btn btn--flat">
+			Cancel
+		</button>
+
+		<button
+				(click)="deleteAPIKey()"
+				class="btn btn--danger">
+			Delete
+		</button>
+	</div>
 </dialog>

@@ -22,16 +22,14 @@
 			</div>
 		</div>
 
-		<!-- Zero state -->
-		<div
-				*ngIf="videos?.length === 0 && tutorial"
-				class="u-tutorial">
-			<p class="u-mb-24">
-				Search for movies and TV shows to add to your list.
+		<div class="u-tutorial u-mb-24">
+			<p>
+				{{searchMsg}}
 			</p>
 
 			<a
 					[routerLink]="'/search'"
+					aria-label="Search for videos"
 					class="btn btn--primary">
 				<span class="icon icon--search"></span>
 				Search
@@ -72,13 +70,13 @@
     (close)="deletionError = false"
 		class="dialog u-text-center">
   <h2 class="dialog__heading">
-    <span *ngIf="aboutToDeleteList">
+    <ng-container *ngIf="aboutToDeleteList">
       Delete list?
-    </span>
+    </ng-container>
 
-    <span *ngIf="!aboutToDeleteList">
+    <ng-container *ngIf="!aboutToDeleteList">
       Remove video?
-    </span>
+    </ng-container>
   </h2>
 
   <p
@@ -132,12 +130,12 @@
 </dialog>
 
 
-<app-list-form
+<app-list-dialog
     *ngIf="list && formList"
     [formList]="formList"
     [show]="formVisible"
     (hidden)="formVisible = false">
-</app-list-form>
+</app-list-dialog>
 
 
 <app-add-to-list

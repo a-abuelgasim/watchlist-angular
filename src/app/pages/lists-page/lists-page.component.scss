@@ -16,15 +16,18 @@
 		flex-grow: 1;
 	}
 
-	&__list {
+	&__ul {
 		display: grid;
 		gap: 24px;
+		grid-auto-rows: 1fr;
 		margin-bottom: 40px;
 	}
 }
 
 .list {
 	@include card;
+
+	height: 100%;
 
 	&__name {
 		@include heading(2);

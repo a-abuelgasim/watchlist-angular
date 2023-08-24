@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 
+const ADD_TO_LIST_DIALOG_INVISIBLE_CLASS = 'dialog--invisible';
+
 @Component({
   selector: 'app-add-to-list',
   templateUrl: './add-to-list.component.html',
@@ -17,6 +19,7 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   error = false;
   formLists?: VideoList[];
   formListsArrayPrevVal: boolean[] = [];
+	listDialogVisible = false;
   lists?: VideoList[];
   videoListsSub?: Subscription;
   submitting = false;
@@ -27,8 +30,8 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   set show(show: boolean) {
     if (show) {
-			this.dialogEl.showModal();
-			this.dialogEl.focus();
+			this.addToListDialogEl.showModal();
+			this.addToListDialogEl.focus();
 		}
   }
 
@@ -36,14 +39,14 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   @Output() hidden = new EventEmitter<boolean>();
 
 
-  @ViewChild('addToListDialog') dialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('addToListDialog') addToListDialog!: ElementRef<HTMLDialogElement>;
 
 
   constructor(private ls: ListService) {}
 
 
   get canSubmit() { return this.formValuesChanged && !this.submitting }
-  get dialogEl() { return this.dialog.nativeElement }
+  get addToListDialogEl() { return this.addToListDialog.nativeElement }
   get formListsArray(): FormArray { return this.addToListFormGroup.get('listsArray') as FormArray }
   get formValuesChanged() {
     return !this.formListsArrayPrevVal.every(
@@ -56,6 +59,7 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
     this.videoListsSub = this.ls.videoLists$.subscribe((lists) => {
       lists.sort((a, b) => a.name > b.name ? 1 : -1);
       this.lists = [...lists];
+			this.updateCheckboxes();
     }) as Subscription;
   }
 
@@ -72,10 +76,22 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
         this._video = await this.ls.getVideoUsingServerID(this._video!) || this._video;
       }
     };
-    if (!this._video || !this.lists || this.lists.length == 0) return;
+
+		this.updateCheckboxes();
+  }
+
+
+  ngOnDestroy(): void {
+    this.videoListsSub?.unsubscribe();
+  }
+
+
+	// Creates formArray with checkboxes and checks those of lists the video is in
+	updateCheckboxes() {
+		if (!this._video || !this.lists || this.lists.length == 0) return;
 
     // Build form array
-    this.formListsArray.clear();
+		this.formListsArray.clear();
     this.lists.forEach((list) => {
       this.formListsArray.push(new FormControl(
         ('id' in this._video!) ?
@@ -85,12 +101,19 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     this.formListsArrayPrevVal = [...this.formListsArray.value];
-  }
+	}
 
 
-  ngOnDestroy(): void {
-    this.videoListsSub?.unsubscribe();
-  }
+	showAddListDialog() {
+		this.addToListDialogEl.classList.add(ADD_TO_LIST_DIALOG_INVISIBLE_CLASS);
+		this.listDialogVisible = true;
+	}
+
+
+	addListDialogHidden() {
+		this.addToListDialogEl.classList.remove(ADD_TO_LIST_DIALOG_INVISIBLE_CLASS);
+		this.listDialogVisible = false;
+	}
 
 
   async submitHandler(): Promise<void> {
@@ -116,7 +139,7 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
       this._video = videoWithUpdatedListIDs || this._video;
       await this.ls.removeVideoFromLists(this._video as Video, listsToRemoveVideoFrom);
       this.formListsArrayPrevVal = [...this.formListsArray.value];
-      this.dialogEl.close();
+      this.addToListDialogEl.close();
     } catch(err) {
       this.error = true;
       console.error(err);

@@ -4,11 +4,9 @@ import { ListService } from '../../services/list/list.service';
 import { Video, VideoList } from '../../utils/video';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { FormList } from '../../components/list-form/list-form.component';
+import { FormList } from '../../components/list-dialog/list-dialog.component';
 import { APP_NAME } from '../../app.component';
-
-
-const LIST_PAGE_NO_TUTORIAL_LS_KEY = 'listNoTutorial';
+import { SEARCH_MSG } from '../search-page/search-page.component';
 
 
 @Component({
@@ -28,7 +26,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
 	loading = true;
   removingVideo = false;
   showAddToListDialog = false;
-	tutorial = true;
+	searchMsg = SEARCH_MSG;
   video?: Video;
   videos?: Video[];
 
@@ -48,8 +46,6 @@ export class ListViewComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-		this.tutorial = !((localStorage.getItem(LIST_PAGE_NO_TUTORIAL_LS_KEY) || 'false') == 'true');
-
     // Get list ID from URL
     const idString = this.route.snapshot.paramMap.get('id');
     this.id = parseInt(idString as string);
@@ -71,9 +67,6 @@ export class ListViewComponent implements OnInit, OnDestroy {
       const videos = await this.ls.getVideos(this.list.videoIDs || [])
       this.videos = videos.filter(video => video) as Video[];
 			if (this.videos?.length === 0) return;
-
-			localStorage.setItem(LIST_PAGE_NO_TUTORIAL_LS_KEY, 'true');
-			this.tutorial = false;
     }) as Subscription;
   }
 

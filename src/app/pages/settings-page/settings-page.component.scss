@@ -16,9 +16,14 @@
 		}
 	}
 
-	&__api-key {
-		font-size: 1.4rem;
-		margin-bottom: 24px;
+	&__btns {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		@include mq(tablet) {
+			flex-direction: row-reverse;
+		}
 	}
 }
 

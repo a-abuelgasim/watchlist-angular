@@ -3,6 +3,7 @@ import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { videoDetailsToVideoSearchResult, ImageType, VideoDetails, VideoSearchResponse, VideoType } from '../../utils/video';
 import { fakeVideoDB } from '../../utils/fake-video-db';
 import { ImageURLConfig, TMDBService } from './tmdb.service';
+import Fuse from 'fuse.js';
 
 
 interface ImageTypeSources {
@@ -13,6 +14,17 @@ interface ImageTypeSources {
 export interface ImageSources {
   [key: string]: ImageTypeSources,
 }
+
+
+const FUSE_OPTIONS = {
+	keys: [
+		'title',
+		'cast',
+		'directors',
+		'creators',
+	],
+	threshold: 0.4
+};
 
 
 @Injectable({
@@ -33,11 +45,13 @@ export class VideoDataService {
     },
   };
 	apiKey?: string | null;
+	fuse?: Fuse<VideoDetails>;
 	lastSearch$? = new BehaviorSubject<any>(null);
 
 
   constructor(private TMDBService: TMDBService) {
 		this.apiKey = this.TMDBService.apiKey;
+		this.fuse = new Fuse(Object.values(fakeVideoDB), FUSE_OPTIONS);
 	}
 
 
@@ -87,10 +101,9 @@ export class VideoDataService {
   search(query: string, page = 1): Observable<VideoSearchResponse | null> {
     if (this.TMDBService.apiKey) return this.TMDBService.search(query, page);
 
-    const formatedQuery = query.toLocaleLowerCase().trim();
-    const results = Object.values(fakeVideoDB)
-      .filter(video => video.title!.toLocaleLowerCase().includes(formatedQuery))
-      .map(video => videoDetailsToVideoSearchResult(video));
+		const results = this.fuse?.
+			search(query)?.
+			map(fuseResult => videoDetailsToVideoSearchResult(fuseResult.item)) || [];
 
     return of(
       {

@@ -7,13 +7,12 @@
 			Add to lists
 		</h2>
 
-		<a
-				[fragment]="'new'"
-				[routerLink]="'/lists'"
-				class="add-to-list__new-list-btn btn btn--secondary u-mb-24">
+		<button
+				class="add-to-list__new-list-btn btn btn--secondary u-mb-24"
+				(click)="showAddListDialog()">
 			<span class="icon icon--add"></span>
 			Add a list
-		</a>
+		</button>
 
 		<form
 				*ngIf="_video as video; else noVideo"
@@ -59,7 +58,7 @@
 
 			<div class="form__actions">
 				<button
-						(click)="dialogEl.close()"
+						(click)="addToListDialogEl.close()"
 						class="btn btn--flat"
 						type="button">
 					Cancel
@@ -78,3 +77,9 @@
     Video not found
   </ng-template>
 </dialog>
+
+
+<app-list-dialog
+    [show]="listDialogVisible"
+    (hidden)="addListDialogHidden()">
+</app-list-dialog>

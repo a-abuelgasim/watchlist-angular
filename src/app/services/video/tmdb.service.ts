@@ -17,6 +17,7 @@ export interface ImageURLConfig {
 
 export const API_KEY_LOCAL_STORAGE_KEY = 'videoDataAPIKey';
 export const BASE_URL = 'https://api.themoviedb.org/3';
+export const INVALID_API_KEY_ERROR_MSG = 'Sorry, your API key is not valid.'
 export const IP_API_URL = 'http://ip-api.com/json';
 
 
@@ -281,7 +282,7 @@ export class TMDBService {
           }
         }),
         catchError((error) => {
-          console.error(error);
+					if (error.status == 401) throw(INVALID_API_KEY_ERROR_MSG);
           return of(null);
         })
       )

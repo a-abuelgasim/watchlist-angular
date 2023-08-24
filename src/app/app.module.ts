@@ -13,7 +13,7 @@ import { VideoViewComponent } from './pages/video-page/video-page.component';
 import { AddToListComponent } from './components/add-to-list/add-to-list.component';
 import { VideoCardComponent } from './components/video-card/video-card.component';
 import { SettingsViewComponent } from './pages/settings-page/settings-page.component';
-import { ListFormComponent } from './components/list-form/list-form.component';
+import { ListFormComponent } from './components/list-dialog/list-dialog.component';
 import { HeaderComponent } from './components/header/header.component';
 import { VideoDetailsComponent } from './components/video-details/video-details.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';

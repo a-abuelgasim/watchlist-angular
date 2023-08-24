@@ -143,8 +143,8 @@ $icon-offset-padding: calc(icons.$icon-size + $side-padding + 8px);
 	gap: 32px;
 
 	&-error {
-		color: var(--color-danger);
-		font-weight: 500;
+		@include error;
+
 		text-align: center;
 	}
 
