@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TMDBService } from '../../services/video/tmdb.service';
 
 
-export const API_KEY_MESSAGE = `To get the most out of this app you'll need a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> so you can search for any movie or TV show. Without a key you'll only be able to search through a limited set of Marvel Cinematic Universe content.`;
+export const API_KEY_MESSAGE = `To get the most out of this app you'll need to add a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> to the app settings so you can search for any movie or TV show. Without a key you'll only be able to search through a limited set of Marvel Cinematic Universe content.`;
 export const LIGHT_THEME_CLASS = 'light-theme';
 export const LIGHT_THEME_LS_KEY = 'lightTheme';
 
