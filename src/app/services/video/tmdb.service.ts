@@ -283,6 +283,7 @@ export class TMDBService {
         }),
         catchError((error) => {
 					if (error.status == 401) throw(INVALID_API_KEY_ERROR_MSG);
+					else console.error(error)
           return of(null);
         })
       )

@@ -1,11 +1,11 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { API_KEY_LOCAL_STORAGE_KEY, BASE_URL, ImageURLConfig, IP_API_URL, TMDBService } from './tmdb.service';
+import { API_KEY_LOCAL_STORAGE_KEY, BASE_URL, ImageURLConfig, INVALID_API_KEY_ERROR_MSG, IP_API_URL, TMDBService } from './tmdb.service';
 import { mock as mockTestData, expected as expectedTestData } from './tmdb.service.test-data';
 import { LocalStorageMock } from '../../utils/mocks';
 import { VideoType } from '../../utils/video';
-import { firstValueFrom, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 LocalStorageMock.init();
 
@@ -660,6 +660,26 @@ describe(`TMDBService`, () => {
 
         expect(consoleErrorSpy).toBeCalled();
         console.error = originalConsoleError;
+      });
+
+      it(`should throw specific error if invalid API key used`, (done) => {
+        const statusText = 'Some error';
+        service
+          .search(mockQuery)
+          .subscribe(
+						_ => done(),
+						error => {
+							expect(error).toEqual(INVALID_API_KEY_ERROR_MSG);
+							done();
+						}
+					);
+
+        httpTestingController
+          .expectOne({
+            method: 'GET',
+            url: buildApiUrl(mockApiKey, mockQuery),
+          })
+          .flush('Mock error', { status: 401, statusText });
       });
 
       it(`should return empty array for results if no matching results`, (done) => {

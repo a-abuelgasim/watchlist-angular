@@ -167,10 +167,10 @@ describe('VideoDataService', () => {
 
     it('should search fake server if API key not present', (done) => {
       const expectedResults = [
-        fakeVideoDB[1771],
-        fakeVideoDB[100402],
-        fakeVideoDB[271110],
         fakeVideoDB[299537],
+        fakeVideoDB[271110],
+				fakeVideoDB[1771],
+        fakeVideoDB[100402],
         fakeVideoDB[822119],
       ];
 
@@ -181,6 +181,27 @@ describe('VideoDataService', () => {
         totalResults: 5
       } as VideoSearchResponse;
       dataServerApiKeyGetSpy.mockReturnValueOnce(null);
+
+      service
+        .search(mockQuery)
+        .subscribe((results) => {
+          expect(results).toEqual(expectedSearchResponse);
+          done();
+        })
+
+      expect(dataServerSearchSpy).not.toBeCalled();
+    });
+
+    it('should return empty list if fuse not defined', (done) => {
+      const expectedSearchResponse = {
+        page: 1,
+        results: [],
+        totalPages: 1,
+        totalResults: 0
+      } as VideoSearchResponse;
+      dataServerApiKeyGetSpy.mockReturnValueOnce(null);
+
+			service.fuse = undefined;
 
       service
         .search(mockQuery)
