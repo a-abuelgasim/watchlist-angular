@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TMDBService } from '../../services/video/tmdb.service';
 
 
-export const API_KEY_MESSAGE = `Watchy is in demo mode, so you can only search for movies and TV shows from the Marvel Cinematic Universe. To search for other movies and TV shows you'll need to get a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> and add it Watchy in the settings.`;
+export const API_KEY_MESSAGE = `Watchy is in demo mode, so you can only search for movies and TV shows from the Marvel Cinematic Universe. To search for other movies and TV shows you'll need to get a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> and add it to Watchy's settings.`;
 export const LIGHT_THEME_CLASS = 'light-theme';
 export const LIGHT_THEME_LS_KEY = 'lightTheme';
 
