@@ -28,6 +28,7 @@
 	@include card;
 
 	height: 100%;
+	min-height: 215px;
 
 	&__name {
 		@include heading(2);
