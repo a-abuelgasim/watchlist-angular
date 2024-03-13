@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { API_KEY_LOCAL_STORAGE_KEY, BASE_URL, ImageURLConfig, INVALID_API_KEY_ERROR_MSG, IP_API_URL, TMDBService } from './tmdb.service';
+import { API_KEY_LOCAL_STORAGE_KEY, BASE_URL, ImageURLConfig, INVALID_API_KEY_ERROR_MSG, INVALID_KEY_ERROR, IP_API_URL, TMDBService } from './tmdb.service';
 import { mock as mockTestData, expected as expectedTestData } from './tmdb.service.test-data';
 import { LocalStorageMock } from '../../utils/mocks';
 import { VideoType } from '../../utils/video';
@@ -20,8 +20,6 @@ describe(`TMDBService`, () => {
       const mockApiKey = 'm0ck-Api';
       const localStorageGetItemSpy = jest.spyOn(localStorage, 'getItem');
       const localStorageRemoveItemSpy = jest.spyOn(localStorage, 'removeItem');
-      const localStorageSetItemSpy = jest.spyOn(localStorage, 'setItem')
-
 
       it(`should initialise API key as null if not in local storage`, () => {
         service = new TMDBService(mockHttp);
@@ -39,19 +37,10 @@ describe(`TMDBService`, () => {
         expect(service.apiKey).toEqual(mockApiKey);
       });
 
-      it(`should update API key in local storage`, () => {
+      it(`should remove API key if set to null`, () => {
         service = new TMDBService(mockHttp);
 
-        service.apiKey = mockApiKey;
-
-        expect(localStorageSetItemSpy).toBeCalledWith(API_KEY_LOCAL_STORAGE_KEY, mockApiKey);
-        expect(service.apiKey).toEqual(mockApiKey);
-      });
-
-      it(`should remove API key if setter called with null value`, () => {
-        service = new TMDBService(mockHttp);
-
-        service.apiKey = null;
+        service.updateAPIKey(null);
 
         expect(localStorageRemoveItemSpy).toBeCalledWith(API_KEY_LOCAL_STORAGE_KEY);
         expect(service.apiKey).toBeNull();
@@ -142,11 +131,6 @@ describe(`TMDBService`, () => {
 
   describe(`TestBed`, () => {
     const mockApiKey = 'm0ck-Api';
-    const nullImageURLConfig: ImageURLConfig = {
-      backdropSizes: {lg: null, md: null, sm: null},
-      baseURL: null,
-      posterSizes: {lg: null, md: null, sm: null},
-    }
 
     let httpTestingController: HttpTestingController;
     let service: TMDBService;
@@ -169,7 +153,72 @@ describe(`TMDBService`, () => {
     afterEach(() => httpTestingController.verify());
 
 
+		describe(`updateAPIKey`, () => {
+			it(`should update API key in local storage`, (done) => {
+				const localStorageSetItemSpy = jest.spyOn(localStorage, 'setItem');
+
+				service
+					.updateAPIKey(mockApiKey)
+					.subscribe(response => {
+						expect(response).toEqual({});
+						expect(localStorageSetItemSpy).toBeCalledWith(API_KEY_LOCAL_STORAGE_KEY, mockApiKey);
+						expect(service.apiKey).toEqual(mockApiKey);
+						done();
+					});
+
+				httpTestingController
+					.expectOne({
+						method: 'GET',
+						url: `${BASE_URL}/authentication?api_key=${mockApiKey}`,
+					})
+					.flush({});
+			});
+
+			it(`should throw specific error if API key set to invalid key`, (done) => {
+				const statusText = 'Some error';
+
+				service.updateAPIKey(mockApiKey).subscribe({
+					error: (err) => {
+						expect(err).toEqual(INVALID_KEY_ERROR);
+						done();
+					}
+				});
+
+				httpTestingController
+					.expectOne({
+						method: 'GET',
+						url: `${BASE_URL}/authentication?api_key=${mockApiKey}`,
+					})
+					.flush('Mock error', { status: 401, statusText });
+			});
+
+			it(`should not throw specific error if status is not 402`, (done) => {
+				const statusText = 'Some error';
+
+				service.updateAPIKey(mockApiKey).subscribe({
+					error: (err) => {
+						expect(err.statusText).toEqual(statusText);
+						done();
+					}
+				});
+
+				httpTestingController
+					.expectOne({
+						method: 'GET',
+						url: `${BASE_URL}/authentication?api_key=${mockApiKey}`,
+					})
+					.flush('Mock error', { status: 404, statusText });
+			});
+		})
+
+
     describe(`getImageURLConfig`, () => {
+			const nullImageURLConfig: ImageURLConfig = {
+				backdropSizes: {lg: null, md: null, sm: null},
+				baseURL: null,
+				posterSizes: {lg: null, md: null, sm: null},
+			}
+
       afterEach(() => expect(apiKeyGetSpy).toBeCalled());
 
       it(`should return null if API key not present`, (done) => {
@@ -178,9 +227,9 @@ describe(`TMDBService`, () => {
         service
           .getImageURLConfig()
           .subscribe(imageURLConfig => {
-        expect(imageURLConfig).toBeNull();
-            done();
-          });
+						expect(imageURLConfig).toBeNull();
+						done();
+					});
       });
 
       it(`should return null if config API call fails`, (done) => {
@@ -287,7 +336,6 @@ describe(`TMDBService`, () => {
             }
           });
       });
-
 
       it(`should make only one config API call for multiple subscriptions`, (done) => {
         service
