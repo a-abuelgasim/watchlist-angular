@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of, shareReplay, catchError, switchMap, combineLatest } from 'rxjs';
+import { map, Observable, of, shareReplay, catchError, switchMap, combineLatest, tap } from 'rxjs';
 import { Video, VideoSearchResult, VideoDetails, VideoSearchResponse, VideoType } from '../../utils/video';
+
+export const INVALID_KEY_ERROR = `The TMDB API key provided is invalid.`;
 
 interface ImageSizes {
   lg: string | null;
@@ -30,17 +32,6 @@ export class TMDBService {
   private _countryCode$: Observable<any> | null = null;
 
   get apiKey() { return this._apiKey }
-
-  set apiKey(key: string | null) {
-    this._apiKey = key;
-
-    if (key) {
-      localStorage.setItem(API_KEY_LOCAL_STORAGE_KEY, key);
-      return;
-    }
-
-    localStorage.removeItem(API_KEY_LOCAL_STORAGE_KEY);
-  }
 
 
   constructor(private http: HttpClient) {
@@ -288,4 +279,30 @@ export class TMDBService {
         })
       )
   }
+
+
+	updateAPIKey(key: string | null): Observable<any> {
+		if (key) {
+      const params = {params: new HttpParams().set('api_key', key)};
+
+			return this.http
+				.get<any>(`${BASE_URL}/authentication`, params)
+				.pipe(
+					tap(_ => {
+						this._apiKey = key;
+						localStorage.setItem(API_KEY_LOCAL_STORAGE_KEY, key);
+					}),
+					catchError((err) => {
+						if (err.status == 401) {
+							throw(INVALID_KEY_ERROR);
+						}
+						throw(err);
+					})
+				);
+    }
+
+		this._apiKey = key;
+    localStorage.removeItem(API_KEY_LOCAL_STORAGE_KEY);
+		return of(null);
+	}
 }

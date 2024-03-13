@@ -104,7 +104,7 @@
 
 <dialog
     #addAPIKeyDialog
-    (close)="addAPIKeyError = false"
+    (close)="addAPIKeyError = null"
 		class="dialog">
 	<p class="dialog__heading">
 		API Key
@@ -114,7 +114,7 @@
     <p
 				*ngIf="addAPIKeyError"
 				class="form-error u-mb-24">
-      Sorry, there was an error.
+      {{addAPIKeyError}}
     </p>
 
 		<label
@@ -130,7 +130,8 @@
 				id="api-key-input"
 				placeholder="Enter your TMDB API key..."
 				type="text"
-				value="{{apiKey}}">
+				value="{{apiKey}}"
+				(input)="addAPIKeyInputHandler()">
 
     <div class="form__actions">
       <button
