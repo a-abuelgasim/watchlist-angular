@@ -3,7 +3,7 @@
 
 .video-card {
 	$border-radius: 6px;
-	$switch-bp: 400px;
+	$switch-bp: 350px;
 
 	--icon-btn-size: 24px;
 	--icon-size: 2em;
@@ -11,14 +11,19 @@
 	@include card;
 
 	display: flex;
-	gap: 24px;
+	gap: var(--video-card-gap, 16px);
 
 	@include mq($until: $switch-bp) {
 		align-items: center;
 		flex-direction: column;
 	}
 
-	@include mq($from: $switch-bp, $until: tablet) {
+	@include mq($from: tablet) {
+		--icon-size: 2em;
+		--video-card-gap: 24px;
+	}
+
+	@include mq($until: tablet) {
 		--card-padding: 16px;
 	}
 
@@ -53,6 +58,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--video-card-bottom-gap, 16px);
+		justify-content: space-between;
 		width: 100%;
 
 		@include mq($until: $switch-bp) {
@@ -63,11 +69,14 @@
 	&__content {
 		display: flex;
 		flex-direction: column;
-		flex-grow: 1;
-		gap: 24px;
+		gap: var(--video-card-content-gap, 16px);
 
 		@include mq($until: $switch-bp) {
 			align-items: center;
+		}
+
+		@include mq($from: tablet) {
+			--video-card-content-gap: 24px;
 		}
 	}
 

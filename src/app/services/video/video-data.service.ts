@@ -110,7 +110,6 @@ export class VideoDataService {
         page: page,
         results,
         totalPages: 1,
-
         totalResults: results.length,
       } as VideoSearchResponse
     );
