@@ -44,6 +44,8 @@
 					*ngFor="let video of videos; index as i;"
 					class="list__item">
 				<app-video-card
+						[isFirst]="i === 0"
+						[isLast]="i === videos.length - 1"
 						[video]="video"
 						(add)="addVideoToList(video)"
 						(remove)="prepareVideoForRemoval(video)"

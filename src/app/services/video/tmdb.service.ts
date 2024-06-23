@@ -20,7 +20,7 @@ export interface ImageURLConfig {
 export const API_KEY_LOCAL_STORAGE_KEY = 'videoDataAPIKey';
 export const BASE_URL = 'https://api.themoviedb.org/3';
 export const INVALID_API_KEY_ERROR_MSG = 'Sorry, your API key is not valid.'
-export const IP_API_URL = 'http://ip-api.com/json';
+export const IP_API_URL = 'https://ipinfo.io/json';
 
 
 @Injectable({
@@ -95,6 +95,7 @@ export class TMDBService {
       creators: creators,
       directors: typeIsMovie ? directors : [],
       endDate: endDate,
+      episodes: tmdbResult.number_of_episodes || null,
       genres: genres,
       imdbID: tmdbResult.imdb_id || tmdbResult.external_ids?.imdb_id || null,
       overview: tmdbResult.overview || null,
@@ -170,7 +171,7 @@ export class TMDBService {
       this._countryCode$ = this.http
         .get<any>(IP_API_URL)
         .pipe(
-          map(response => response.countryCode || null),
+          map(response => response.country || null),
           catchError((error) => {
             console.error(error);
             return of(null);

@@ -7,9 +7,7 @@ $breakpoints: (
 	wide: 1440px
 );
 $box-shadow: 0 64px 64px -48px rgba(c.$color-neutral-1, .1);
-$card-side-padding: 32px;
-$card-vertical-padding: 24px;
-$card-padding: $card-vertical-padding $card-side-padding;
+$card-padding: 24px;
 $main-margin-top: 32px;
 $scrollbar-color: var(--color-text-muted);
 $scrollbar-webkit-width: 3px;

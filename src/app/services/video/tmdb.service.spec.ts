@@ -404,7 +404,7 @@ describe(`TMDBService`, () => {
 
         httpTestingController
           .expectOne({method: 'GET', url: IP_API_URL})
-          .flush({"countryCode": "MK"});
+          .flush({"country": "MK"});
       });
 
       it(`should return empty array if no streaming providers`, (done) => {
@@ -418,7 +418,7 @@ describe(`TMDBService`, () => {
 
         httpTestingController
           .expectOne({method: 'GET', url: IP_API_URL})
-          .flush({"countryCode": "MK"});
+          .flush({"country": "MK"});
       });
 
       it(`should return local streaming providers`, (done) => {
@@ -437,7 +437,7 @@ describe(`TMDBService`, () => {
 
         httpTestingController
           .expectOne({method: 'GET', url: IP_API_URL})
-          .flush({"countryCode": "MK"});
+          .flush({"country": "MK"});
       });
 
       it(`should make only one country code API call for multiple subscriptions`, (done) => {
@@ -459,7 +459,7 @@ describe(`TMDBService`, () => {
 
         httpTestingController
           .expectOne({method: 'GET', url: IP_API_URL})
-          .flush({"countryCode": "MK"});
+          .flush({"country": "MK"});
       });
     });
 

@@ -12,6 +12,8 @@ export class VideoCardComponent {
 	status?: string | null;
 
 
+  @Input() isFirst?: boolean;
+  @Input() isLast?: boolean;
   @Input() video?: VideoSearchResult | Video;
 
   @Output() add = new EventEmitter();

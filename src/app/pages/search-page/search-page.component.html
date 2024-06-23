@@ -1,9 +1,9 @@
 <section>
-	<h1 class="heading-1 u-mb-24">
+	<h1 class="heading-1">
 		Search
 	</h1>
 
-	<p class="u-mb-24">
+	<p class="u-mb-32">
 		{{searchMsg}}
 		You can search by name, actor or director.
 	</p>
@@ -29,53 +29,55 @@
 		Search
 	</label>
 
-	<div class="search-wrapper u-mb-24">
-		<span class="icon icon--search"></span>
+	<div class="container container--narrow">
+		<div class="search-wrapper u-mb-24">
+			<span class="icon icon--search"></span>
 
-		<input
-				[formControl]="inputFormControl"
-				(input)="inputHandler($event)"
-				aria-description="Search results will appear below"
-				autocomplete="off"
-				class="search"
-				id="video-search-input"
-				placeholder="Search movies & TV shows..."
-				type="search">
-	</div>
+			<input
+					[formControl]="inputFormControl"
+					(input)="inputHandler($event)"
+					aria-description="Search results will appear below"
+					autocomplete="off"
+					class="search"
+					id="video-search-input"
+					placeholder="Search movies & TV shows..."
+					type="search">
+		</div>
 
-	<p
-			*ngIf="noResults && !error"
-			aria-live="polite"
-			class="u-text-center">
-		No results found.
-	</p>
+		<p
+				*ngIf="noResults && !error"
+				aria-live="polite"
+				class="u-text-center">
+			No results found.
+		</p>
 
-	<p
-			*ngIf="error"
-			aria-live="polite"
-			class="u-text-center u-error">
-		{{error}}
-	</p>
+		<p
+				*ngIf="error"
+				aria-live="polite"
+				class="u-text-center u-error">
+			{{error}}
+		</p>
 
-	<div
-			#resultsFeed
-			[attr.aria-busy]="ariaBusy"
-			(scrolled)="infiniteScrollHandler()"
-			infiniteScroll
-			aria-label="Search results"
-			class="list container container--narrow"
-			role="feed">
 		<div
-				*ngFor="let video of results; index as i"
-				attr.aria-label="{{video.title}}"
-				attr.aria-posinset="{{i + 1}}"
-				attr.aria-setsize="{{results.length}}"
-				role="article"
-				tabindex="0">
-			<app-video-card
-					[video]="video"
-					(add)="addVideoToList(video)">
-			</app-video-card>
+				#resultsFeed
+				[attr.aria-busy]="ariaBusy"
+				(scrolled)="infiniteScrollHandler()"
+				infiniteScroll
+				aria-label="Search results"
+				class="list"
+				role="feed">
+			<div
+					*ngFor="let video of results; index as i"
+					attr.aria-label="{{video.title}}"
+					attr.aria-posinset="{{i + 1}}"
+					attr.aria-setsize="{{results.length}}"
+					role="article"
+					tabindex="0">
+				<app-video-card
+						[video]="video"
+						(add)="addVideoToList(video)">
+				</app-video-card>
+			</div>
 		</div>
 	</div>
 </section>

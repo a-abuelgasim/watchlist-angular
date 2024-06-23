@@ -1,66 +1,82 @@
 <div
 		*ngIf="video"
+		[class.video-details--inline]="inline === true"
 		class="video-details">
-	<!-- Type -->
-	<div class="video-details__detail">
-		<ng-container *ngIf="isMovie">
-			<span class="icon icon--movie"></span>
-			<span class="u-sr-only">movie</span>
-		</ng-container>
+	<div class="video-details__block">
+		<!-- Type -->
+		<div
+				*ngIf="video.type || video.releaseYear || video.status !== 'Released'"
+				class="video-details__detail">
+			<span class="video-details__icon video-details__icon--type">
+				<ng-container *ngIf="isMovie">
+					<span class="icon icon--movie"></span>
+					<span class="u-sr-only">movie</span>
+				</ng-container>
 
-		<ng-container *ngIf="!isMovie">
-			<span class="icon icon--tv"></span>
-			<span class="u-sr-only">TV show</span>
-		</ng-container>
+				<ng-container *ngIf="!isMovie">
+					<span class="icon icon--tv"></span>
+					<span class="u-sr-only">TV show</span>
+				</ng-container>
+			</span>
+		</div>
+
+		<!-- Dates -->
+		<div
+				*ngIf="releaseYear"
+				class="video-details__detail">
+			{{releaseYear}}<span *ngIf="endYear && endYear !== releaseYear">&nbsp;-&nbsp;{{endYear}}</span>
+		</div>
+
+		<!-- Status -->
+		<div
+				*ngIf="inline && video.status"
+				class="video-details__detail">
+			{{video.status}}
+		</div>
 	</div>
 
-
-	<!-- Dates -->
 	<div
-			*ngIf="releaseYear"
-			class="video-details__detail">
-		{{releaseYear}}
-		<span *ngIf="endYear">
-			- {{endYear}}
-		</span>
+			*ngIf="runtime?.[0] !== '' || video.seasons || video.episodes"
+			class="video-details__block">
+		<!-- Runtime -->
+		<div
+				*ngIf="runtime?.[0] !== ''"
+				class="video-details__detail">
+			<span aria-hidden="true">
+				{{runtime?.[0]}}
+			</span>
+
+			<span class="u-sr-only">
+				{{runtime?.[1]}}
+			</span>
+		</div>
+
+		<!-- Seasons -->
+		<div
+				*ngIf="inline && video.seasons"
+				class="video-details__detail">
+			{{video.seasons | i18nPlural: seasonCountPluralStringMap}}
+		</div>
+
+		<!-- Episodes -->
+		<div
+				*ngIf="inline && video.episodes"
+				class="video-details__detail">
+			{{video.episodes | i18nPlural: episodeCountPluralStringMap}}
+		</div>
 	</div>
-
-
-	<!-- Runtime -->
-	<div
-			*ngIf="runtime?.[0] !== ''"
-			class="video-details__detail">
-		<span aria-hidden="true">
-			{{runtime?.[0]}}
-		</span>
-
-		<span class="u-sr-only">
-			{{runtime?.[1]}}
-		</span>
-	</div>
-
-
-	<!-- Seasons -->
-	<div
-			*ngIf="video.seasons"
-			class="video-details__detail">
-		{{video.seasons | i18nPlural: seasonCountPluralStringMap}}
-	</div>
-
 
 	<!-- Rating -->
 	<div
 			*ngIf="video.rating"
-			class="video-details__detail">
-		<span class="u-sr-only">Rated {{video.rating | number : '1.0-1'}}</span>
-		<span aria-hidden="true">{{video.rating | number : '1.0-1'}}</span>
-	</div>
+			class="video-details__rating">
+		<span class="u-sr-only">Rated</span>
 
+		<span
+				class="video-details__icon video-details__icon--star icon icon--star"
+				role="presentation">
+		</span>
 
-	<!-- Status -->
-	<div
-			*ngIf="extended && video.status"
-			class="video-details__detail">
-		{{video.status}}
+		{{video.rating | number : '1.0-1'}}
 	</div>
 </div>

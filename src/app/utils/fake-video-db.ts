@@ -15,6 +15,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jon Favreau'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Science Fiction',
@@ -46,6 +47,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Louis Leterrier'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Science Fiction',
       'Action',
@@ -77,6 +79,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jon Favreau',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Action',
@@ -108,6 +111,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Kenneth Branagh',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Fantasy',
@@ -139,6 +143,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joe Johnston',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -170,6 +175,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joss Whedon',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Science Fiction',
       'Action',
@@ -201,6 +207,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Shane Black',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -232,6 +239,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Alan Taylor',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -264,6 +272,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joe Russo',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -295,6 +304,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'James Gunn',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Science Fiction',
@@ -326,6 +336,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joss Whedon',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -357,6 +368,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Peyton Reed',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Science Fiction',
       'Action',
@@ -389,6 +401,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joe Russo',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Action',
@@ -420,6 +433,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Scott Derrickson',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -451,6 +465,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'James Gunn',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Action',
@@ -482,6 +497,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jon Watts',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -514,6 +530,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Taika Waititi',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -547,6 +564,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Ryan Coogler',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -579,6 +597,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joe Russo',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Action',
@@ -610,6 +629,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Peyton Reed',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -641,6 +661,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Anna Boden',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -673,6 +694,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Joe Russo',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Science Fiction',
@@ -704,6 +726,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jon Watts',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -735,6 +758,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2021-03-05',
+		episodes: 9,
     genres: [
       'Sci-Fi & Fantasy',
       'Mystery',
@@ -766,6 +790,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2021-04-23',
+		episodes: 6,
     genres: [
       'Action & Adventure',
       'Drama',
@@ -795,7 +820,8 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Michael Waldron',
     ],
     directors: [],
-    endDate: null,
+    endDate: '2023-11-09',
+    episodes: 12,
     genres: [
       'Drama',
       'Sci-Fi & Fantasy',
@@ -806,9 +832,9 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     rating: 8.2,
     releaseDate: '2021-06-09',
     runtime: null,
-    seasons: 1,
+    seasons: 2,
     serverID: 84958,
-    status: 'Returning Series',
+    status: 'Ended',
     title: 'Loki',
     type: VideoType.TV,
   },
@@ -826,6 +852,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Cate Shortland'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -855,6 +882,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     creators: [],
     directors: [],
     endDate: null,
+    episodes: 18,
     genres: [
       'Animation',
       'Action & Adventure',
@@ -863,10 +891,10 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     imdbID: 'tt10168312',
     overview: `Taking inspiration from the comic books of the same name, each episode explores a pivotal moment from the Marvel Cinematic Universe and turns it on its head, leading the audience into uncharted territory.`,
     posterPath: '/lztz5XBMG1x6Y5ubz7CxfPFsAcW.jpg',
-    rating: 8.3,
+    rating: 8.2,
     releaseDate: '2021-08-11',
     runtime: null,
-    seasons: 1,
+    seasons: 2,
     serverID: 91363,
     status: 'Returning Series',
     title: 'What If...?',
@@ -886,6 +914,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Destin Daniel Cretton'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -917,6 +946,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Chloé Zhao'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Sci-Fi',
       'Action',
@@ -948,6 +978,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2021-12-22',
+    episodes: 6,
     genres: [
       'Drama',
       'Comedy',
@@ -979,6 +1010,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jon Watts'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -1010,6 +1042,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Sam Raimi'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -1041,6 +1074,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2022-05-04',
+		episodes: 6,
     genres: [
       'Action & Adventure',
       'Sci-Fi & Fantasy',
@@ -1072,6 +1106,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2022-07-13',
+		episodes: 6,
     genres: [
       'Sci-Fi & Fantasy',
       'Action & Adventure',
@@ -1103,6 +1138,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Taika Waititi'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Fantasy',
       'Action',
@@ -1134,6 +1170,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: '2022-10-13',
+		episodes: 9,
     genres: [
       'Sci-Fi & Fantasy',
       'Action & Adventure',
@@ -1165,6 +1202,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Michael Giacchino'
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Fantasy',
@@ -1196,6 +1234,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Ryan Coogler',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -1227,6 +1266,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Peyton Reed',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Adventure',
       'Science Fiction',
@@ -1259,7 +1299,8 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Kyle Bradstreet'
     ],
     directors: [],
-    endDate: null,
+    endDate: '2023-07-26',
+		episodes: 6,
     genres: [
       'Drama',
       'Sci-Fi & Fantasy',
@@ -1269,7 +1310,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     overview: `Nick Fury and Talos discover a faction of shapeshifting Skrulls who have been infiltrating Earth for years.`,
     posterPath: '/ySkya7tPCuT1a4gsewyNzRi9cli.jpg',
     rating: 7.2,
-    releaseDate: null,
+    releaseDate: '2023-06-21',
     runtime: null,
     seasons: 1,
     serverID: 114472,
@@ -1292,6 +1333,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'James Gunn',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Science Fiction',
       'Adventure',
@@ -1322,7 +1364,8 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Marion Dayre',
     ],
     directors: [],
-    endDate: null,
+    endDate: '2024-01-09',
+    episodes: 5,
     genres: [
       'Action & Adventure',
       'Drama',
@@ -1331,17 +1374,17 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     imdbID: 'tt13966962',
     overview: `After her ruthless behavior in New York City catches up with her in her hometown, Maya Lopez must face her past, reconnect with her Native American roots and embrace the meaning of family and community if she ever hopes to move forward.`,
     posterPath: '/3bv5Dv3YmQfzg5ckQMwzCUQ89hU.jpg',
-    rating: null,
-    releaseDate: null,
+    rating: 6.3,
+    releaseDate: '2024-01-09',
     runtime: null,
     seasons: 1,
     serverID: 122226,
-    status: 'In Production',
+    status: 'Ended',
     title: 'Echo',
     type: VideoType.TV,
   },
   609681: {
-    backdropPath: '/3AbHZcRdon7TmpqracuQqgJxOGE.jpg',
+    backdropPath: '/zJrQR9g3hnpC8FY4xCXYVg3ztsA.jpg',
     cast: [
       'Brie Larson',
       'Teyonah Parris',
@@ -1354,20 +1397,21 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Nia DaCosta',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
       'Science Fiction',
     ],
     imdbID: 'tt10676048',
-    overview: `Carol Danvers, Monica Rambeau, and Kamala Khan trade places with each other every time they use their powers and must team up to fix their problem.`,
-    posterPath: '/iebgAsyL4PCA1kc5yb7Bv0rFp7b.jpg',
-    rating: null,
-    releaseDate: '2023-07-26',
+    overview: `Carol Danvers, aka Captain Marvel, has reclaimed her identity from the tyrannical Kree and taken revenge on the Supreme Intelligence. But unintended consequences see Carol shouldering the burden of a destabilized universe. When her duties send her to an anomalous wormhole linked to a Kree revolutionary, her powers become entangled with that of Jersey City super-fan Kamala Khan, aka Ms. Marvel, and Carol’s estranged niece, now S.A.B.E.R. astronaut Captain Monica Rambeau. Together, this unlikely trio must team up and learn to work in concert to save the universe.`,
+    posterPath: '/mHiMmryCureDvoAOlGP6o3oXT8Y.jpg',
+    rating: 6.125,
+    releaseDate: '2023-11-08',
     runtime: null,
     seasons: null,
     serverID: 609681,
-    status: 'Post Production',
+    status: 'Released',
     title: 'The Marvels',
     type: VideoType.Movie,
   },
@@ -1385,6 +1429,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: null,
+    episodes: null,
     genres: [
       'Action & Adventure',
       'Drama',
@@ -1416,6 +1461,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Julius Onah',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -1428,8 +1474,8 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     runtime: null,
     seasons: null,
     serverID: 822119,
-    status: 'Planned',
-    title: 'Captain America: New World Order',
+    status: 'Post Production',
+    title: 'Captain America: Brave New World',
     type: VideoType.Movie,
   },
   986056: {
@@ -1446,6 +1492,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Jake Schreier',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Adventure',
@@ -1474,6 +1521,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
       'Yann Demange',
     ],
     endDate: null,
+    episodes: null,
     genres: [
       'Action',
       'Fantasy',
@@ -1504,6 +1552,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     ],
     directors: [],
     endDate: null,
+    episodes: null,
     genres: [
       'Sci-Fi & Fantasy',
       'Action & Adventure',
@@ -1533,6 +1582,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     creators: [],
     directors: [],
     endDate: null,
+    episodes: null,
     genres: [],
     imdbID: 'tt20411934',
     overview: `An upcoming Disney+ series featuring Matt Murdock aka Daredevil in the Marvel Cinematic Universe.`,
@@ -1542,7 +1592,7 @@ export const fakeVideoDB: {[k: number]: VideoDetails} = {
     runtime: null,
     seasons: 1,
     serverID: 202555,
-    status: 'Panned',
+    status: 'Planned',
     title: 'Daredevil: Born Again',
     type: VideoType.TV,
   },

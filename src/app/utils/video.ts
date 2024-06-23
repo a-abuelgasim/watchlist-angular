@@ -34,6 +34,7 @@ export interface VideoDetails extends Omit<Video, 'id' | 'updated' | 'videoListI
   creators: string[];
   directors: string[];
   endDate: string | null;
+	episodes: number | null;
   genres: string[];
   imdbID: string | null;
   overview: string | null;

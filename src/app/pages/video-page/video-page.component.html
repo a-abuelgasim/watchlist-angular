@@ -51,10 +51,12 @@
 		</div>
 
 		<!-- Details -->
-		<app-video-details
-				[video]="video"
-				[extended]="true">
-		</app-video-details>
+		<div class="video-page__details">
+			<app-video-details
+					[inline]="true"
+					[video]="video">
+			</app-video-details>
+		</div>
 
 
 		<!-- Overview -->
@@ -73,7 +75,7 @@
 						aria-hidden="true"
 						class="video-page__list-label"
 						id="video-cast-label">
-					Cast:
+					Cast
 				</div>
 
 				<ul	aria-labelledby="video-cast-label">
@@ -91,7 +93,7 @@
 						aria-hidden="true"
 						class="video-page__list-label"
 						id="video-director-label">
-					Directed by:
+					Directed by
 				</div>
 
 				<ul aria-labelledby="video-director-label">
@@ -109,7 +111,7 @@
 						aria-hidden="true"
 						class="video-page__list-label"
 						id="video-creator-label">
-					Created by:
+					Created by
 				</div>
 
 				<ul aria-labelledby="video-creator-label">
@@ -127,7 +129,7 @@
 						aria-hidden="true"
 						class="video-page__list-label"
 						id="video-genres-label">
-					Genres:
+					Genres
 				</div>
 
 				<ul aria-labelledby="video-genres-label">
@@ -144,7 +146,7 @@
 					aria-hidden="true"
 					class="video-page__list-label video-page__list-label--streamers"
 					id="video-streamers-label">
-				Streaming on:
+				Watch on
 			</div>
 
 			<ul

@@ -75,28 +75,34 @@
 				</div>
 			</div>
 
-			<ul class="lists__ul">
+			<ul class="list">
 				<li
 						*ngFor="let videoList of videoLists; trackBy: identifyList"
 						class="lists__li">
 					<a
 							[routerLink]="['/list', videoList.id]"
-							class="list">
-						<h2 class="list__name">
+							class="video-list list">
+						<h2 class="video-list__name">
 							{{videoList.name}}
 						</h2>
 
-						<p class="u-sr-only">
-							{{videoList.videoIDs.length | i18nPlural : videoCountPluralStringMap}}
-						</p>
+						<div
+								*ngIf="videoList.videoIDs && videoList.videoIDs.length === 0"
+								class="u-text-center u-mb-16">
+							This list is empty
+						</div>
 
 						<div
 								*ngIf="videoList.videoIDs && videoList.videoIDs.length > 0"
-								class="list__posters">
+								class="video-list__posters">
+							<p class="u-sr-only">
+								{{videoList.videoIDs.length | i18nPlural : videoCountPluralStringMap}}
+							</p>
+
 							<ng-container *ngFor="let videoID of videoList.videoIDs">
 								<img
 										*ngIf="videoPosterSources[videoID] as posterSources"
-										class="list__poster"
+										class="video-list__poster"
 										role="presentation"
 										sizes="100px"
 										src="{{posterSources['poster'].src}}"

@@ -1,21 +1,37 @@
 @use '../../../scss/abstracts' as *;
 @use '../../../scss/base/colors' as c;
 
+@mixin bullet {
+	$size: .35em;
+
+	background-color: c.$color-grey-2;
+	border-radius: 50%;
+	content: '';
+	height: $size;
+	margin: 0 var(--video-detail-before-side-margin, .5em);
+	width: $size;
+}
 
 .video-details {
-	--icon-size: 1.25em;
+	$block: &;
 
-	align-items: center;
 	display: flex;
-	flex-wrap: wrap;
-	font-size: var(--video-details-icon-size, 1.2rem);
-	margin-bottom: var(--video-details-margin-bottom);
+	font-size: 2.5em;
 
-	@include mq(tablet) {
-		--icon-btn-size: 3em;
-		--icon-size: 1.75em;
-		--video-detail-before-side-margin: .75em;
-		--video-details-icon-size: 1.4rem;
+	&:not(&--inline) {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	@include mq($until: tablet) {
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	&__block {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
 	}
 
 	&__detail {
@@ -23,14 +39,34 @@
 		display: flex;
 
 		&:not(:last-child)::after {
-			$size: .35em;
+			@include bullet;
+		}
+	}
 
-			background-color: c.$color-grey-2;
-			border-radius: 50%;
-			content: '';
-			height: $size;
-			margin: 0 var(--video-detail-before-side-margin, .5em);
-			width: $size;
+	&__rating {
+		align-items: center;
+		display: flex;
+		gap: .5em;
+	}
+
+	&__icon {
+		margin-top: -.2em;
+
+		&--type {
+			--icon-size: 1.75em;
+		}
+
+		&--star {
+			--icon-size: 1em;
+			--icon-color: #{c.$color-yellow-700};
+		}
+	}
+
+	&--inline #{$block}__block {
+		&:not(:last-child)::after {
+			@include mq(tablet) {
+				@include bullet;
+			}
 		}
 	}
 }

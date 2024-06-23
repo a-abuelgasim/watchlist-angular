@@ -9,6 +9,10 @@ import { VideoType } from '../../utils/video';
 })
 export class VideoDetailsComponent implements OnChanges {
 	endYear?: string | null;
+	episodeCountPluralStringMap = {
+		'=1': '1 episode',
+		'other': '# episodes',
+	};
 	isMovie?: boolean;
 	releaseYear?: string | null;
 	runtime?: [string, string];
@@ -18,11 +22,11 @@ export class VideoDetailsComponent implements OnChanges {
 	seasonCountPluralStringMap = {
 		'=1': '1 season',
 		'other': '# seasons',
-	}
+	};
 
 
+	@Input() inline?: boolean;
 	@Input() video?: any;
-	@Input() extended?: boolean;
 
 
 	ngOnChanges(changes: SimpleChanges): void {

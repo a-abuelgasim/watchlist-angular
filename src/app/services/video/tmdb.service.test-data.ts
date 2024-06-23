@@ -38,6 +38,8 @@ const mockMovieDetails = {
     {"name": "movie genre 4"},
   ],
   "imdb_id": "tt11111",
+	"number_of_episodes": null,
+	"number_of_seasons": null,
   "overview": "movie overview",
   "runtime": 111,
   "status": "movie status",
@@ -53,7 +55,6 @@ const mockTVShowBasics = {
 
 const mockTVShowDetails = {
   ...mockTVShowBasics,
-  "backdrop_path": "/tv-show-backdrop-path",
   "aggregate_credits": {
     "cast": [
       {"name": "tv show aggregate cast member 1"},
@@ -64,6 +65,7 @@ const mockTVShowDetails = {
       {"name": "tv show aggregate cast member 6"},
     ],
   },
+  "backdrop_path": "/tv-show-backdrop-path",
   "credits": {"cast": [{"name": "tv show cast member 1"}]},
   "created_by": [
     {"name": "tv show creator 1"},
@@ -81,7 +83,8 @@ const mockTVShowDetails = {
     {"name": "tv show genre 4"},
   ],
   "last_air_date": "2022-03-03",
-  "number_of_seasons": 2,
+	"number_of_episodes": 22,
+	"number_of_seasons": 2,
   "overview": "tv show overview",
   "status": "Returning series",
   "name": "tv show title",
@@ -126,13 +129,14 @@ const expectedNullVideoSearchResult = {
   type: VideoType.Movie,
 } as VideoSearchResult;
 
-const expectedNullVideoDetails = {
+const expectedNullVideoDetails: VideoDetails = {
   ...expectedNullVideoSearchResult,
   backdropPath: null,
   cast: [],
   creators: [],
   directors: [],
   endDate: null,
+	episodes: null,
   genres: [],
   imdbID: null,
   overview: null,
@@ -140,7 +144,7 @@ const expectedNullVideoDetails = {
   runtime: null,
   seasons: null,
   status: null,
-} as VideoDetails
+};
 
 const expectedMovieBasics = {
   posterPath: mockMovieBasics.poster_path,
@@ -162,6 +166,7 @@ const expectedMovieDetails = {
     .slice(0, 5)
     .map(crewMember => crewMember.name),
   endDate: null,
+	episodes: null,
   genres: mockMovieDetails.genres
     .slice(0,3)
     .map(genre => genre.name),
@@ -193,6 +198,7 @@ const expectedTVShowDetails = {
     .map(creator => creator.name),
   directors: [],
   endDate: null,
+	episodes: 22,
   genres: mockTVShowDetails.genres
     .slice(0, 3)
     .map(genre => genre.name),

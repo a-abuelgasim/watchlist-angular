@@ -19,8 +19,20 @@
 
 	<div class="video-card__bottom">
 		<div class="video-card__content">
+			<a
+					*ngIf="video.serverID"
+					[attr.aria-label]="video.title"
+					[queryParams]="{type: video.type}"
+					[routerLink]="['/video', video.serverID]">
+				<h2
+						*ngIf="video.title"
+						class="video-card__name">
+					{{video.title}}
+				</h2>
+			</a>
+
 			<h2
-					*ngIf="video.title"
+					*ngIf="!video.serverID && video.title"
 					class="video-card__name">
 				{{video.title}}
 			</h2>
@@ -39,7 +51,7 @@
 				</button>
 
 				<button
-						*ngIf="onListPage"
+						*ngIf="onListPage && !isFirst"
 						(click)="moveUp.emit()"
 						aria-label="Move video up in list"
 						class="icon-btn video-card__move-up-btn">
@@ -47,7 +59,7 @@
 				</button>
 
 				<button
-						*ngIf="onListPage"
+						*ngIf="onListPage && !isLast"
 						(click)="moveDown.emit()"
 						aria-label="Move video down in list"
 						class="icon-btn video-card__move-down-btn">

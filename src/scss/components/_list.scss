@@ -1,5 +1,11 @@
+@use '../abstracts/mixins' as *;
+
 .list {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: var(--list-gap, 16px);
+
+	@include mq(tablet) {
+		--list-gap: 24px;
+	}
 }

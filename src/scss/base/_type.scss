@@ -11,11 +11,11 @@ body {
 
 .heading {
 	&-1 {
-		@include heading(1);
+		@include heading(1, 24px);
 	}
 
 	&-2 {
-		@include heading(2);
+		@include heading(2, 24px);
 	}
 }
 

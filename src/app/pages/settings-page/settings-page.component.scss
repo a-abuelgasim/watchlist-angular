@@ -28,12 +28,6 @@
 }
 
 .setting {
-	&-heading {
-		@include heading(2);
-
-		margin-bottom: 24px;
-	}
-
 	align-items: center;
 	border: 1px solid c.$color-grey-2;
 	border-radius: 6px;

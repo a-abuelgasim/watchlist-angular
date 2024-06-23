@@ -3,7 +3,7 @@
 
 .video-card {
 	$border-radius: 6px;
-	$switch-bp: 350px;
+	$switch-bp: 400px;
 
 	--icon-btn-size: 24px;
 	--icon-size: 2em;
@@ -18,7 +18,7 @@
 		flex-direction: column;
 	}
 
-	@include mq($from: tablet) {
+	@include mq(tablet) {
 		--icon-size: 2em;
 		--video-card-gap: 24px;
 	}
@@ -60,31 +60,28 @@
 		gap: var(--video-card-bottom-gap, 16px);
 		justify-content: space-between;
 		width: 100%;
-
-		@include mq($until: $switch-bp) {
-			--video-card-bottom-gap: 40px;
-		}
 	}
 
 	&__content {
 		display: flex;
 		flex-direction: column;
+		font-size: var(--video-card-content-font-size, 5px);
 		gap: var(--video-card-content-gap, 16px);
 
 		@include mq($until: $switch-bp) {
 			align-items: center;
 		}
 
-		@include mq($from: tablet) {
-			--video-card-content-gap: 24px;
+		@include mq(tablet) {
+			--video-card-content-font-size: 6px;
 		}
 	}
 
 	&__name {
-		@include heading(3);
+		@include heading($font-size: 3em);
 
-		@include mq($until: tablet) {
-			font-size: 1.6rem;
+		@include mq($until: $switch-bp) {
+			text-align: center;
 		}
 	}
 
@@ -93,7 +90,11 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 24px;
-		justify-content: flex-end;
+		justify-content: var(--video-card-actions-justify-content, flex-end);
+
+		@include mq($switch-bp) {
+			--video-card-actions-justify-content: flex-end;
+		}
 	}
 
 	&__move-up-btn {

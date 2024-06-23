@@ -9,17 +9,22 @@
 	padding: var(--card-padding, #{$card-padding});
 }
 
+
 @mixin error {
 	color: var(--color-danger);
 	font-weight: 500;
 }
 
 
-@mixin heading($n) {
+@mixin heading($n: '', $margin-bottom: null, $font-size: null) {
 	font-family: 'DM Sans', sans-serif;
 	font-weight: 700;
 	letter-spacing: -.02em;
 	line-height: 1.167em;
+
+	@if $margin-bottom {
+		margin-bottom: #{$margin-bottom};
+	}
 
 	@if $n == 1 {
 		font-size: 2.5rem;
@@ -29,12 +34,8 @@
 		font-size: 2rem;
 	}
 
-	@if $n == 3 {
-		font-size: 1.5em;
-	}
-
-	@if $n == 4 {
-		font-size: 1em;
+	@if $font-size {
+		font-size: #{$font-size};
 	}
 }
 

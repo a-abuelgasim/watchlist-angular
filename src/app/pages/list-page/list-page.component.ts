@@ -11,8 +11,7 @@ import { SEARCH_MSG } from '../search-page/search-page.component';
 
 @Component({
   selector: 'app-list-page',
-  templateUrl: './list-page.component.html',
-  styleUrls: ['./list-page.component.scss']
+  templateUrl: './list-page.component.html'
 })
 export class ListViewComponent implements OnInit, OnDestroy {
   aboutToDeleteList = false;

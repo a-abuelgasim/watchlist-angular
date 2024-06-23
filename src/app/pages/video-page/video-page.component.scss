@@ -27,7 +27,8 @@
 		margin: 0 auto;
 	}
 
-	&__title {
+	&__details {
+		font-size: 7px;
 		margin-bottom: 32px;
 	}
 
@@ -50,7 +51,7 @@
 	}
 
 	&__list-label {
-		@include heading(4);
+		@include heading($font-size: 1.7rem);
 
 		color: var(--color-text-muted);
 		margin-bottom: 8px;
