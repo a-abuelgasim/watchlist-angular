@@ -34,8 +34,7 @@ const HIDE_SEARCH_PAGE_BANNER_LS_KEY = 'hideSearchPageBanner';
 
 @Component({
   selector: 'app-search-page',
-  templateUrl: './search-page.component.html',
-  styleUrls: ['./search-page.component.scss']
+  templateUrl: './search-page.component.html'
 })
 export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy {
 	apiKeyMsg = API_KEY_MESSAGE;
