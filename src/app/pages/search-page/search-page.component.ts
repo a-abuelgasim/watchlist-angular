@@ -23,7 +23,7 @@ import { VideoDataService } from '../../services/video/video-data.service';
 import { VideoSearchResult } from '../../utils/video';
 import { FormControl } from '@angular/forms';
 import { NavigationStart, Router } from '@angular/router';
-import { API_KEY_MESSAGE } from '../settings-page/settings-page.component';
+import { API_KEY_MSG } from '../settings-page/settings-page.component';
 import { INVALID_API_KEY_ERROR_MSG } from '../../services/video/tmdb.service';
 
 
@@ -37,7 +37,7 @@ const HIDE_SEARCH_PAGE_BANNER_LS_KEY = 'hideSearchPageBanner';
   templateUrl: './search-page.component.html'
 })
 export class SearchViewComponent implements OnInit, AfterViewChecked, OnDestroy {
-	apiKeyMsg = API_KEY_MESSAGE;
+	apiKeyMsg = API_KEY_MSG;
   ariaBusy = false;
 	showBanner: boolean;
 	error?: string;

@@ -3,30 +3,38 @@
 		Settings
 	</h1>
 
+
+	<!-- Color theme -->
 	<div class="u-mb-48">
 		<h2 class="heading-2">
 			Color theme
 		</h2>
+
 		<div class="setting">
 			<div aria-hidden="true">
 				Light theme
 			</div>
+
 			<label
 					class="switch"
 					for="color-theme-toggle">
 				<span class="u-sr-only">Light theme:</span>
+
 				<input
 						#lightThemeCheckbox
-						(change)="colorThemeChangeHandler()"
-						[(ngModel)]="lightTheme"
 						class="switch__input"
 						id="color-theme-toggle"
-						type="checkbox">
+						type="checkbox"
+						(change)="colorThemeChangeHandler()"
+						[(ngModel)]="lightTheme">
+
 				<span class="switch__slider"></span>
 			</label>
 		</div>
 	</div>
 
+
+	<!-- API key -->
 	<div class="u-mb-48">
 		<h2 class="heading-2">
 			API key
@@ -40,10 +48,12 @@
 			<div>
 				API key
 			</div>
+
 			<div class="u-truncate-text">
 				<em *ngIf="apiKey">
 					{{apiKey}}
 				</em>
+
 				<span *ngIf="!apiKey">
 					No API key saved
 				</span>
@@ -52,8 +62,8 @@
 
 		<div class="settings__btns">
 			<button
-					(click)="showAddAPIKeyDialog()"
-					class="btn btn--primary">
+					class="btn btn--secondary"
+					(click)="showAddAPIKeyDialog()">
 				<ng-container *ngIf="apiKey">
 					Edit API key
 				</ng-container>
@@ -65,29 +75,106 @@
 
 			<button
 					*ngIf="apiKey"
-					(click)="deleteAPIKeyDialogEl.showModal()"
-					class="btn btn--danger">
+					class="btn btn--danger"
+					(click)="deleteAPIKeyDialogEl.showModal()">
 				Delete API key
 			</button>
 		</div>
 	</div>
 
+
+	<!-- Manage library -->
+	<div class="u-mb-48">
+		<h2 class="heading-2">
+			Manage library
+		</h2>
+
+		<p class="u-mb-24">
+			Manage current library
+		</p>
+
+		<div class="settings__btns u-mb-32">
+			<button
+					class="btn btn--secondary"
+					(click)="exportLibrary()">
+				Export library
+			</button>
+
+			<button
+					class="btn btn--danger"
+					(click)="deleteLibraryDialogEl.showModal()">
+				Delete library
+			</button>
+		</div>
+
+		<p class="u-mb-24">
+			Import library
+		</p>
+
+		<div
+				class="settings__drop-area"
+				[ngClass]="dropAreaActive ? 'settings__drop-area--active' : ''"
+				(dragleave)="dropAreaActive = false"
+				(dragover)="onDropAreaDragOver($event)"
+				(drop)="onDropAreaDrop($event)">
+			<span class="icon icon--upload"></span>
+
+			<div aria-hidden="true">
+				Drag & drop {{appName}} library file here
+			</div>
+
+			<div aria-hidden="true">
+				or
+			</div>
+
+			<label
+					class="btn btn--flat"
+					(click)="null">
+				<span aria-hidden="true">
+					Select a file
+				</span>
+
+				<span class="u-sr-only">
+					Select {{appName}} library file to upload
+				</span>
+
+				<input
+						accept=".json"
+						style="display: none"
+						type="file"
+						(change)="libraryFileSelected($event)" />
+			</label>
+
+		</div>
+	</div>
+
+
+	<!-- Attribution -->
 	<div>
 		<h2 class="heading-2">
 			Attribution & credits
 		</h2>
+
 		<p class="settings__attribution">
 			Powered by
-			<a aria-label="TMDB" href="https://www.themoviedb.org/" target="_blank">
+			<a
+					aria-label="TMDB"
+					href="https://www.themoviedb.org/"
+					target="_blank">
 				<span class="icon icon--tmdb"></span>
 			</a>
 		</p>
+
 		<p class="settings__attribution">
 			Streaming service information provided by
-			<a aria-label="Just Watch" href="https://www.justwatch.com/" target="_blank">
+			<a
+					aria-label="Just Watch"
+					href="https://www.justwatch.com/"
+					target="_blank">
 				<span class="icon icon--just-watch"></span>
 			</a>
 		</p>
+
 		<p class="settings__attribution">
 			Icons provided by <a href="https://iconduck.com/" target="_blank">
 				Icon Duck
@@ -95,6 +182,7 @@
 				<span class="icon icon--font-awesome"></span>
 			</a>
 		</p>
+
 		<p>
 			<a href="https://iconscout.com/icons/tv" target="_blank">Free Tv Icon</a> by <a href="https://iconscout.com/contributors/twitter-inc" target="_blank">Twitter Emoji</a> on <a href="https://iconscout.com" target="_blank">IconScout</a>
 		</p>
@@ -102,10 +190,11 @@
 </section>
 
 
+<!-- Add API key dialog -->
 <dialog
     #addAPIKeyDialog
-    (close)="addAPIKeyError = null"
-		class="dialog">
+		class="dialog"
+    (close)="addAPIKeyError = null">
 	<p class="dialog__heading">
 		API Key
 	</p>
@@ -135,9 +224,9 @@
 
     <div class="form__actions">
       <button
-          (click)="addAPIKeyDialogEl.close()"
 					class="btn btn--flat"
-          type="button">
+          type="button"
+          (click)="addAPIKeyDialogEl.close()">
         Cancel
       </button>
 
@@ -151,6 +240,7 @@
 </dialog>
 
 
+<!-- Delete API key dialog -->
 <dialog
     #deleteAPIKeyDialog
 		class="dialog u-text-center">
@@ -164,15 +254,82 @@
 
 	<div class="form__actions">
 		<button
-				(click)="deleteAPIKeyDialogEl.close()"
-				class="btn btn--flat">
+				class="btn btn--flat"
+				(click)="deleteAPIKeyDialogEl.close()">
 			Cancel
 		</button>
 
 		<button
-				(click)="deleteAPIKey()"
-				class="btn btn--danger">
+				class="btn btn--danger"
+				(click)="deleteAPIKey()">
 			Delete
+		</button>
+	</div>
+</dialog>
+
+
+<!-- Delete library dialog -->
+<dialog
+    #deleteLibraryDialog
+		class="dialog u-text-center">
+  <h2 class="dialog__heading">
+		Delete library?
+  </h2>
+
+  <p class="u-mb-32">
+		Are you sure you want to delete your {{appName}} library?
+  </p>
+
+	<div class="form__actions">
+		<button
+				class="btn btn--flat"
+				(click)="deleteLibraryDialogEl.close()">
+			Cancel
+		</button>
+
+		<button
+				class="btn btn--danger"
+				(click)="deleteLibrary()">
+			Delete
+		</button>
+	</div>
+</dialog>
+
+
+<!-- Import library dialog -->
+<dialog
+    #importLibraryDialog
+		class="dialog u-text-center">
+  <h2 class="dialog__heading">
+		Import library?
+  </h2>
+
+  <p class="u-mb-32">
+		Are you sure you want to import this {{appName}} library?
+  </p>
+
+	<div class="u-mb-32">
+		<strong>
+			{{libraryFileToImport?.name}}
+		</strong>
+	</div>
+
+
+  <p class="u-mb-32">
+		Importing a library will replace your current library so make sure you export it first.
+  </p>
+
+	<div class="form__actions">
+		<button
+				class="btn btn--flat"
+				(click)="importLibraryDialogEl.close()">
+			Cancel
+		</button>
+
+		<button
+				class="btn btn--primary"
+				(click)="importLibrary()">
+			Import
 		</button>
 	</div>
 </dialog>
