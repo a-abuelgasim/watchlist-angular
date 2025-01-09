@@ -7,9 +7,9 @@ import { Toast, ToastService } from '../../services/toast/toast.service';
   styleUrls: ['./toasts.component.scss']
 })
 export class ToastsComponent {
-	constructor(public toastService: ToastService) {}
+	constructor(public ts: ToastService) {}
 
 	get toasts(): Toast[] {
-    return this.toastService.getToasts();
+    return this.ts.getToasts();
   }
 }

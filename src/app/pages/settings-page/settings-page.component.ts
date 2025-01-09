@@ -4,17 +4,23 @@ import { catchError, of, tap } from 'rxjs';
 import { db, DEXIE_EXPORT_IMPORT_FORMAT_VERSION, LIBRARY_EXPORTED_FILE_NAME } from '../../db/db';
 import { APP_NAME } from '../../app.component';
 import { peakImportFile } from 'dexie-export-import';
+import { ToastService } from '../../services/toast/toast.service';
+import { ERROR_MSG_PREFIX, RETRY_MSG } from '../../utils/constants';
 
 
 export const API_KEY_MSG = `Watchy is in demo mode, so you can only search for movies and TV shows from the Marvel Cinematic Universe. To search for other movies and TV shows you'll need to get a <a href="https://developer.themoviedb.org/reference/intro/getting-started" target="_blank">TMDB API key</a> and add it to Watchy's settings.`;
 export const LIGHT_THEME_CLASS = 'light-theme';
 export const LIGHT_THEME_LS_KEY = 'lightTheme';
 
-const RETRY_MSG = 'Please try again';
-
-const DEFAULT_API_KEY_ERR_MSG = 'Sorry, there was an error adding this API key. ${RETRY_MSG}.';
-const INCOMPATIBLE_LIBRARY_ERR_MSG = 'This library is not compatible.';
+const DEFAULT_API_KEY_ERR_MSG = `${ERROR_MSG_PREFIX} adding this API key. ${RETRY_MSG}.`;
 const INVALID_API_KEY_ERR_MSG = 'The API key provided is invalid.';
+const LIBRARY_DELETE_ERR_MSG = `${ERROR_MSG_PREFIX} deleting the library. ${RETRY_MSG}.`;
+const LIBRARY_DELETE_SUCCESS_MSG = 'Library deleted successfully.';
+const LIBRARY_EXPORT_ERR_MSG = `${ERROR_MSG_PREFIX} exporting the library. ${RETRY_MSG}.`;
+const LIBRARY_IMPORT_ERR_MSG = `${ERROR_MSG_PREFIX} importing the library. ${RETRY_MSG}.`;
+const LIBRARY_IMPORT_SUCCESS_MSG = 'Library imported successfully.';
+const LIBRARY_INCOMPATIBLE_ERR_MSG = 'The library is not compatible.';
+const SELECTED_LIBRARY_FILE_TYPE_INVALID_MSG = `Selected file is not a valid library file`;
 
 
 @Component({
@@ -50,7 +56,7 @@ export class SettingsViewComponent {
   get libraryFileInputEl() { return this.libraryFileInput?.nativeElement }
 
 
-  constructor(private tmdbs: TMDBService) {
+  constructor(private tmdbs: TMDBService, private ts: ToastService) {
     this.lightTheme = document.body.classList.contains(LIGHT_THEME_CLASS);
   }
 
@@ -94,13 +100,16 @@ export class SettingsViewComponent {
 
 
 	async deleteLibrary() {
+		let toastMessage: string;
 		try {
 			await db.reset();
+			toastMessage = LIBRARY_DELETE_SUCCESS_MSG;
 		} catch (error) {
 			console.error(error);
-			return;
+			toastMessage = LIBRARY_DELETE_ERR_MSG;
 		}
 
+		this.ts.addToast(toastMessage);
 		this.deleteLibraryDialogEl.close();
 	}
 
@@ -116,6 +125,7 @@ export class SettingsViewComponent {
 			downloadLink.click();
 			URL.revokeObjectURL(fileURL);
 		} catch (error) {
+			this.ts.addToast(LIBRARY_EXPORT_ERR_MSG);
 			console.error(error);
 		}
 	}
@@ -123,6 +133,7 @@ export class SettingsViewComponent {
 
 	async importLibrary() {
 		if (!this.libraryFileToImport) return;
+		let toastMsg: string = '';
 
 		try {
 			// if file name doesn't match pattern, or is not a Dexie exported file of the same format version, throw
@@ -132,17 +143,22 @@ export class SettingsViewComponent {
 				fileMeta.formatName !== 'dexie' ||
 				fileMeta.formatVersion !== DEXIE_EXPORT_IMPORT_FORMAT_VERSION
 			) {
-				throw(LIBRARY_IMPORT_ERR_MSG)
+				toastMsg = LIBRARY_INCOMPATIBLE_ERR_MSG
+				throw(LIBRARY_INCOMPATIBLE_ERR_MSG)
 			}
 
 			await db.reset();
 			await db.import(this.libraryFileToImport);
+			toastMsg = LIBRARY_IMPORT_SUCCESS_MSG;
 		} catch (error) {
 			console.error(error);
-			return;
+			if (error != LIBRARY_INCOMPATIBLE_ERR_MSG) {
+				toastMsg = LIBRARY_IMPORT_ERR_MSG;
+			}
 		}
 
-		this.importLibraryDialogEl.close()
+		this.importLibraryDialogEl.close();
+		this.ts.addToast(toastMsg);
 		this.libraryFileToImport = null;
 	}
 
@@ -176,7 +192,7 @@ export class SettingsViewComponent {
 			event.dataTransfer.files[0];
 
 		if (!file || file.type !== 'application/json') {
-			console.error(`Selected file is not a valid ${APP_NAME} library file`);
+			this.ts.addToast(SELECTED_LIBRARY_FILE_TYPE_INVALID_MSG);
 			return;
 		}
 

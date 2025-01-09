@@ -1,7 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { LIST_NAME_EXISTS_ERROR, ListService } from '../../services/list/list.service';
+import { LIST_NAME_EXISTS_ERR_MSG, ListService } from '../../services/list/list.service';
+import { ToastService } from '../../services/toast/toast.service';
+import { ERROR_MSG_PREFIX, RETRY_MSG } from '../../utils/constants';
 
 
 export interface FormList {
@@ -10,7 +12,7 @@ export interface FormList {
 }
 
 
-const ERROR_MSG = 'Sorry, there was an error.';
+const ADD_LIST_ERR_MSG = `${ERROR_MSG_PREFIX}. ${RETRY_MSG}.`;
 
 
 @Component({
@@ -51,7 +53,7 @@ export class ListFormComponent  {
   @ViewChild('listFormDialog') dialog!: ElementRef<HTMLDialogElement>;
 
 
-  constructor(private ls: ListService) {}
+  constructor(private ls: ListService, private ts: ToastService) {}
 
 
   get dialogElement() { return this.dialog.nativeElement }
@@ -87,12 +89,14 @@ export class ListFormComponent  {
       this.submitted = true;
       this.dialogElement.close();
     } catch(err) {
-      if (err === LIST_NAME_EXISTS_ERROR) {
+      if (err === LIST_NAME_EXISTS_ERR_MSG) {
         this.error = err;
         return;
       }
-			this.error = ERROR_MSG;
+
       console.error(err);
+			this.ts.addToast(ADD_LIST_ERR_MSG);
+      this.dialogElement.close();
     } finally {
       this.submitting = false;
     }

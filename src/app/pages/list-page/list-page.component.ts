@@ -7,7 +7,12 @@ import { Title } from '@angular/platform-browser';
 import { FormList } from '../../components/list-dialog/list-dialog.component';
 import { APP_NAME } from '../../app.component';
 import { SEARCH_MSG } from '../search-page/search-page.component';
+import { ToastService } from '../../services/toast/toast.service';
+import { ERROR_MSG_PREFIX, RETRY_MSG } from '../../utils/constants';
 
+
+const DELETE_LIST_ERR_MSG = `${ERROR_MSG_PREFIX} deleting this list. ${RETRY_MSG}.`;
+const REMOVE_VIDEO_ERR_MSG = `${ERROR_MSG_PREFIX} removing this video. ${RETRY_MSG}.`;
 
 @Component({
   selector: 'app-list-page',
@@ -16,7 +21,6 @@ import { SEARCH_MSG } from '../search-page/search-page.component';
 export class ListViewComponent implements OnInit, OnDestroy {
   aboutToDeleteList = false;
   deletingList = false;
-  deletionError = false;
   formList?: FormList;
   formVisible = false;
   id?: number;
@@ -37,7 +41,8 @@ export class ListViewComponent implements OnInit, OnDestroy {
     public ls: ListService,
     private route: ActivatedRoute,
     private router: Router,
-    private ts: Title
+    private title: Title,
+		private ts: ToastService
   ) {}
 
 
@@ -57,7 +62,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
       if (!this.list) return;
 
       // Set page title
-      this.ts.setTitle(`${APP_NAME} | ${this.list.name!}`);
+      this.title.setTitle(`${APP_NAME} | ${this.list.name!}`);
 
       // Add the list details to the edit list form
       this.formList = {name: this.list.name, id: this.id};
@@ -89,16 +94,11 @@ export class ListViewComponent implements OnInit, OnDestroy {
       this.router.navigate(['/lists']);
     } catch(err) {
       console.error(err);
-      this.deletionError = true;
-    } finally {
-      this.deletingList = false;
+			this.dialogEl.close();
+			this.ts.addToast(DELETE_LIST_ERR_MSG);
     }
-  }
 
-
-  hideDeleteDialog() {
-    this.dialogEl.close();
-    this.deletionError = false;
+		this.deletingList = false;
   }
 
 
@@ -131,13 +131,13 @@ export class ListViewComponent implements OnInit, OnDestroy {
     this.removingVideo = true;
     try {
       await this.ls.removeVideoFromLists(this.video, [this.list]);
-			this.dialogEl.close();
     } catch(err) {
       console.error(err);
-      this.deletionError = true;
-    } finally {
-      this.removingVideo = false;
+			this.ts.addToast(REMOVE_VIDEO_ERR_MSG);
     }
+
+		this.dialogEl.close();
+		this.removingVideo = false;
   }
 
 

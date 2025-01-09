@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { db } from '../../db/db';
 import { Video, VideoSearchResult, VideoDetails, VideoList, VideoType, videoDetailsToVideoSearchResult, NewVideo } from '../../utils/video';
-import { LIST_NAME_EXISTS_ERROR, ListService } from './list.service';
+import { LIST_NAME_EXISTS_ERR_MSG, ListService } from './list.service';
 import { firstValueFrom, of } from 'rxjs';
 import { fakeVideoDB } from '../../utils/fake-video-db';
 import { VideoDataService } from '../video/video-data.service';
@@ -159,7 +159,7 @@ describe('ListService', () => {
         } catch(err) {
           error = err;
         } finally {
-          expect(error).toEqual(LIST_NAME_EXISTS_ERROR);
+          expect(error).toEqual(LIST_NAME_EXISTS_ERR_MSG);
           expect(dbAddSpy).toBeCalled();
           expect(listID).toBeUndefined();
         }
@@ -296,7 +296,7 @@ describe('ListService', () => {
         } finally {
           expect(dbUpdateSpy).toBeCalled();
           expect(response).toBeUndefined();
-          expect(error).toEqual(LIST_NAME_EXISTS_ERROR);
+          expect(error).toEqual(LIST_NAME_EXISTS_ERR_MSG);
         }
       });
 
