@@ -139,6 +139,7 @@
 				</span>
 
 				<input
+						#libraryFileInput
 						accept=".json"
 						style="display: none"
 						type="file"
@@ -299,7 +300,8 @@
 <!-- Import library dialog -->
 <dialog
     #importLibraryDialog
-		class="dialog u-text-center">
+		class="dialog u-text-center"
+		(close)="libraryFileInputEl.value = ''">
   <h2 class="dialog__heading">
 		Import library?
   </h2>

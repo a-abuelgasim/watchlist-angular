@@ -10,10 +10,11 @@ export const API_KEY_MSG = `Watchy is in demo mode, so you can only search for m
 export const LIGHT_THEME_CLASS = 'light-theme';
 export const LIGHT_THEME_LS_KEY = 'lightTheme';
 
-const DEFAULT_API_KEY_ERR_MSG = 'Sorry, there was an error.';
-const INVALID_API_KEY_ERR_MSG = 'The API key provided was invalid.';
-const INCOMPATIBLE_LIBRARY_ERR_MSG = 'This library is not compatible.';
+const RETRY_MSG = 'Please try again';
 
+const DEFAULT_API_KEY_ERR_MSG = 'Sorry, there was an error adding this API key. ${RETRY_MSG}.';
+const INCOMPATIBLE_LIBRARY_ERR_MSG = 'This library is not compatible.';
+const INVALID_API_KEY_ERR_MSG = 'The API key provided is invalid.';
 
 
 @Component({
@@ -32,19 +33,21 @@ export class SettingsViewComponent {
 
 
   @ViewChild('addAPIKeyDialog') addAPIKeyDialog!: ElementRef<HTMLDialogElement>;
-  @ViewChild('apiKeyInput') input!: ElementRef<HTMLInputElement>;
+  @ViewChild('apiKeyInput') apiKeyInput!: ElementRef<HTMLInputElement>;
   @ViewChild('deleteAPIKeyDialog') deleteAPIKeyDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('deleteLibraryDialog') deleteLibraryDialog!: ElementRef<HTMLDialogElement>;
   @ViewChild('importLibraryDialog') importLibraryDialog!: ElementRef<HTMLDialogElement>;
+  @ViewChild('libraryFileInput') libraryFileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('lightThemeCheckbox') checkbox!: ElementRef<HTMLInputElement>;
 
 
-  get addAPIKeyDialogEl() { return this.addAPIKeyDialog.nativeElement }
 	get apiKey() { return this.tmdbs.apiKey }
+  get addAPIKeyDialogEl() { return this.addAPIKeyDialog.nativeElement }
+  get apiKeyInputEl() { return this.apiKeyInput?.nativeElement }
   get deleteAPIKeyDialogEl() { return this.deleteAPIKeyDialog.nativeElement }
   get deleteLibraryDialogEl() { return this.deleteLibraryDialog.nativeElement }
   get importLibraryDialogEl() { return this.importLibraryDialog.nativeElement }
-  get inputEl() { return this.input?.nativeElement }
+  get libraryFileInputEl() { return this.libraryFileInput?.nativeElement }
 
 
   constructor(private tmdbs: TMDBService) {
@@ -54,7 +57,7 @@ export class SettingsViewComponent {
 
   apiKeySubmitHandler() {
 		this.tmdbs
-			.updateAPIKey(this.inputEl.value)
+			.updateAPIKey(this.apiKeyInputEl.value)
 			.pipe(
 				tap(_ => {
 					this.addAPIKeyError = null;
@@ -72,8 +75,9 @@ export class SettingsViewComponent {
 			.subscribe(() => this.canSubmit = false);
   }
 
+
 	addAPIKeyInputHandler() {
-		this.canSubmit = this.inputEl.value != this.apiKey;
+		this.canSubmit = this.apiKeyInputEl.value != this.apiKey;
 	}
 
 
@@ -121,51 +125,31 @@ export class SettingsViewComponent {
 		if (!this.libraryFileToImport) return;
 
 		try {
+			// if file name doesn't match pattern, or is not a Dexie exported file of the same format version, throw
 			const fileMeta = await peakImportFile(this.libraryFileToImport);
-			const fileDbTables = fileMeta.data.tables;
-			const dbTables = db.tables;
-
-			// if file name doesn't match pattern, or is not a Dexie exported file of the same format version and with the same number of tables, then throw
 			if (
 				this.libraryFileToImport.name !== LIBRARY_EXPORTED_FILE_NAME ||
 				fileMeta.formatName !== 'dexie' ||
-				fileMeta.formatVersion !== DEXIE_EXPORT_IMPORT_FORMAT_VERSION ||
-				fileDbTables.length !== dbTables.length
+				fileMeta.formatVersion !== DEXIE_EXPORT_IMPORT_FORMAT_VERSION
 			) {
-				alert(INCOMPATIBLE_LIBRARY_ERR_MSG);
-				return;
-			}
-
-			const sortedDbTables = dbTables.slice().sort((a, b) => a.name.localeCompare(b.name));
-			const sortedFileDbTables = fileDbTables.slice().sort((a, b) => a.name.localeCompare(b.name));
-    	const tablesAreEqual = sortedDbTables.every((table, index) => table.name === sortedFileDbTables[index].name);
-			if (!tablesAreEqual) {
-				alert(INCOMPATIBLE_LIBRARY_ERR_MSG);
-				return;
+				throw(LIBRARY_IMPORT_ERR_MSG)
 			}
 
 			await db.reset();
 			await db.import(this.libraryFileToImport);
-
-			alert(`Library imported successfully!`);
 		} catch (error) {
 			console.error(error);
 			return;
 		}
 
-		this.libraryFileToImport = null;
 		this.importLibraryDialogEl.close()
+		this.libraryFileToImport = null;
 	}
 
 
 	libraryFileSelected(event: Event) {
 		const file = (event.target as HTMLInputElement).files?.[0];
-
-		if (!file) {
-			this.dropAreaActive = false;
-			return;
-		}
-
+		if (!file) return;
 		this.libraryFileToImport = file;
 		this.importLibraryDialogEl.showModal();
 	}
