@@ -69,7 +69,6 @@
 
 <dialog
     #deleteDialog
-    (close)="deletionError = false"
 		class="dialog u-text-center">
   <h2 class="dialog__heading">
     <ng-container *ngIf="aboutToDeleteList">
@@ -82,7 +81,6 @@
   </h2>
 
   <p
-			*ngIf="!deletionError"
 			class="u-mb-32">
     <span *ngIf="aboutToDeleteList">
       Are you sure you want to delete this list?
@@ -93,22 +91,9 @@
     </span>
   </p>
 
-	<p
-      *ngIf="deletionError"
-      aria-live="polite"
-			class="form-error u-mb-24">
-    <span *ngIf="aboutToDeleteList">
-      There was a problem deleting this list.
-    </span>
-
-    <span *ngIf="!aboutToDeleteList">
-      There was a problem removing this video.
-    </span>
-  </p>
-
 	<div class="form__actions">
 		<button
-				(click)="hideDeleteDialog()"
+				(click)="dialogEl.close()"
 				class="btn btn--flat">
 			Cancel
 		</button>

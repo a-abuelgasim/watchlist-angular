@@ -26,6 +26,7 @@ $color-grey-2: $color-neutral-4;
 	--color-bg-2: #{$color-neutral-2};
 	--color-grey-1: #{$color-neutral-3};
 	--color-text: #{$color-neutral-8};
+	--color-text-inverted: #{$color-neutral-1};
 	--color-text-muted: #{$color-neutral-5};
 }
 
@@ -37,5 +38,6 @@ $color-grey-2: $color-neutral-4;
 	--color-bg-2: #{$color-neutral-8};
 	--color-grey-1: #{$color-neutral-5};
 	--color-text: #{$color-neutral-1};
+	--color-text-inverted: #{$color-neutral-8};
 	--color-text-muted: #{$color-neutral-3};
 }

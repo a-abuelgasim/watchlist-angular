@@ -3,9 +3,12 @@ import { Video, VideoSearchResult, VideoDetails, VideoList } from '../../utils/v
 import { ListService } from '../../services/list/list.service';
 import { Subscription } from 'rxjs';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { ToastService } from '../../services/toast/toast.service';
+import { ERROR_MSG_PREFIX, RETRY_MSG } from '../../utils/constants';
 
 
 const ADD_TO_LIST_DIALOG_INVISIBLE_CLASS = 'dialog--invisible';
+const FORM_ERR_MSG = `${ERROR_MSG_PREFIX}. ${RETRY_MSG}.`
 
 @Component({
   selector: 'app-add-to-list',
@@ -16,7 +19,6 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   addToListFormGroup: FormGroup = new FormGroup({
     listsArray: new FormArray([])
   });
-  error = false;
   formLists?: VideoList[];
   formListsArrayPrevVal: boolean[] = [];
 	listDialogVisible = false;
@@ -42,7 +44,7 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('addToListDialog') addToListDialog!: ElementRef<HTMLDialogElement>;
 
 
-  constructor(private ls: ListService) {}
+  constructor(private ls: ListService, private ts: ToastService) {}
 
 
   get canSubmit() { return this.formValuesChanged && !this.submitting }
@@ -65,8 +67,6 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
 
 
   async ngOnChanges(changes: SimpleChanges): Promise<void> {
-    this.error = false;
-
     const videoChanges = changes['video'];
     if (videoChanges && videoChanges.currentValue) {
       this._video! = videoChanges.currentValue;
@@ -119,7 +119,6 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
   async submitHandler(): Promise<void> {
     if (!this._video) return;
     this.submitting = true;
-    this.error = false;
 
     const listsToRemoveVideoFrom: VideoList[] = [];
     const listsToAddVideoTo: VideoList[] = [];
@@ -139,12 +138,12 @@ export class AddToListComponent implements OnInit, OnChanges, OnDestroy {
       this._video = videoWithUpdatedListIDs || this._video;
       await this.ls.removeVideoFromLists(this._video as Video, listsToRemoveVideoFrom);
       this.formListsArrayPrevVal = [...this.formListsArray.value];
-      this.addToListDialogEl.close();
     } catch(err) {
-      this.error = true;
+			this.ts.addToast(FORM_ERR_MSG);
       console.error(err);
-    } finally {
-      this.submitting = false;
     }
+
+		this.submitting = false;
+		this.addToListDialogEl.close();
   }
 }

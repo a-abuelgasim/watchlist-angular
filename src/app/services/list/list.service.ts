@@ -6,7 +6,7 @@ import { VideoDataService } from '../video/video-data.service';
 import { firstValueFrom } from 'rxjs';
 
 
-export const LIST_NAME_EXISTS_ERROR = `There's already a list with this name.`;
+export const LIST_NAME_EXISTS_ERR_MSG = `There's already a list with this name.`;
 
 
 @Injectable({
@@ -76,7 +76,7 @@ export class ListService {
       return newListID;
     } catch(err: any) {
       if (err.name === Dexie.errnames.Constraint) {
-        throw(LIST_NAME_EXISTS_ERROR);
+        throw(LIST_NAME_EXISTS_ERR_MSG);
       }
 
       throw(err);
@@ -94,7 +94,7 @@ export class ListService {
       return await db.videoLists.update(id, changes);
     } catch(err: any) {
       if (err.message.includes(Dexie.errnames.Constraint)) {
-        throw(LIST_NAME_EXISTS_ERROR);
+        throw(LIST_NAME_EXISTS_ERR_MSG);
       }
       throw(err);
     }

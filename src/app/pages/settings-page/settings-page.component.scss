@@ -18,11 +18,33 @@
 
 	&__btns {
 		display: flex;
-		flex-direction: column;
 		gap: 24px;
 
-		@include mq(tablet) {
-			flex-direction: row-reverse;
+		@include mq($until: tablet) {
+			flex-direction: column;
+		}
+	}
+
+	&__drop-area {
+		--icon-size: 35px;
+
+		align-items: center;
+		border: 1px dashed c.$color-grey-2;
+		border-radius: 6px;
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-top: 24px;
+		padding: 40px;
+		text-align: center;
+		transition: background-color $transition, border $transition, color $transition;
+
+		&--active {
+			--icon-color: var(--color-text-inverted);
+
+			background: var(--color-interacting);
+			border: 1px solid var(--color-interacting);
+			color: var(--color-text-inverted);
 		}
 	}
 }

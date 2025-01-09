@@ -11,23 +11,14 @@
 				class="add-to-list__new-list-btn btn btn--secondary u-mb-24"
 				(click)="showAddListDialog()">
 			<span class="icon icon--add"></span>
-			Add a list
+			Create a list
 		</button>
 
 		<form
 				*ngIf="_video as video; else noVideo"
 				[formGroup]="addToListFormGroup"
 				(ngSubmit)="submitHandler()">
-			<p
-					*ngIf="error"
-					aria-live="polite"
-					class="form-error u-mb-24">
-				Sorry, there was an error.
-			</p>
-
-			<p
-					*ngIf="!error"
-					class="u-sr-only">
+			<p class="u-sr-only">
 				Select lists to add the video to
 			</p>
 
