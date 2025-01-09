@@ -1,0 +1,9 @@
+<div class="toast-container">
+	<div
+			*ngFor="let toast of toasts"
+			aria-live="polite"
+			class="toast"
+			role="status">
+		{{toast.message}}
+	</div>
+</div>

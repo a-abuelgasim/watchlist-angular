@@ -1,0 +1,27 @@
+@use '../../../scss/abstracts' as *;
+@use '../../../scss/base/colors' as c;
+
+.toast {
+	background: c.$color-neutral-2;
+	border-radius: 8px;
+	color: c.$color-neutral-8;
+	font-size: 14px;
+	font-weight: 500;
+	padding: 16px;
+	width: 300px;
+
+	@media (min-width: 600px) {
+		width: 500px;
+	}
+
+	&-container {
+		bottom: $side-padding;
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 16px;
+		left: 50%;
+		position: fixed;
+		transform: translateX(-50%);
+		z-index: 100;
+	}
+}

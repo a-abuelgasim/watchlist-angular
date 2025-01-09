@@ -17,6 +17,7 @@ import { ListFormComponent } from './components/list-dialog/list-dialog.componen
 import { HeaderComponent } from './components/header/header.component';
 import { VideoDetailsComponent } from './components/video-details/video-details.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ToastsComponent } from './components/toasts/toasts.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     SettingsViewComponent,
     HeaderComponent,
     VideoDetailsComponent,
+    ToastsComponent,
   ],
   imports: [
     AppRoutingModule,
